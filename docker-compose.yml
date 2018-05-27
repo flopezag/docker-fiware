@@ -64,7 +64,12 @@ services:
                 max-file: "5"
 
 
-    # Wirecloud services
+    ####################
+    # Pending NGSI Proxy
+    ####################
+
+
+    # IdM services
     mysql-idm:
         container_name: mysql-idm
         restart: always
@@ -103,3 +108,40 @@ services:
                 max-size: "100m"
                 max-file: "5"
 
+    ####################
+    # Pending PEP Proxy
+    ####################
+
+    # Orion services
+    mongo:
+        container_name: mongo
+        restart: always
+        image: mongo:3.4
+        command: --nojournal
+        networks:
+            - db
+        volumes:
+            - ./mongodb:/Users/joudsayedissa/data/db
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"
+
+
+    orion:
+        container_name: orion
+        restart: always
+        image: fiware/orion:latest
+        ports:
+            - 1026:1026
+        depends_on:
+            - mongo
+        networks:
+            - frontend
+            - db
+        hostname: orion
+        command: -dbhost mongo -logLevel ERROR
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"

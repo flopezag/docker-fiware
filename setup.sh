@@ -1,17 +1,44 @@
 #!/bin/bash
 
-usage() { echo "Usage: $0 [init|clean]" 1>&2; exit 1; }
+usage() { 
+    echo "Usage: $0 [init|clean]" 1>&2; 
+    echo
+    exit 1; 
+}
 
 clean_environment() {
-    docker-compose kill
-    docker-compose rm
-    docker-compose down
+    echo "WARNING!!! This operation will delete all the local data"
+    while true; do
+        read -p "Do you really want to continue [y/N]? " yn
+        yn=${yn:-no}
+        case $yn in
+            [Yy]* ) 
+                echo
+                docker-compose kill
+                docker-compose rm
+                docker-compose down
 
-    rm -rf ./postgres-data
-    rm -rf ./static
-    rm -rf ./wirecloud_instance
-    rm -rf ./mysql-idm
+                rm -rf ./postgres-data
+                rm -rf ./static
+                rm -rf ./wirecloud_instance
+                rm -rf ./mysql-idm
+                rm -rf ./mongodb
+
+                exit
+                ;;
+            [Nn]* ) 
+                echo
+                exit
+                ;;
+            * ) 
+                echo
+                echo "Please answer yes or no."
+                ;;
+        esac
+    done    
 }
+
+echo
 
 case "$1" in
     init)
