@@ -1,0 +1,66 @@
+version: "3"
+
+networks:
+    db:
+    frontend:
+        external: true
+
+volumes:
+   vol-mysql:
+
+services:
+
+    # From wirecloud
+    nginx:
+        container_name: nginx
+        restart: always
+        image: nginx:latest
+        ports:
+            - 80:80
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./static:/var/www/static:ro
+        depends_on:
+            - wirecloud
+        networks: 
+            - frontend
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"
+
+
+    postgres:
+        container_name: postgres
+        restart: always
+        image: postgres:latest
+        ports:
+            - 127.0.0.1:5432:5432
+        volumes:
+            - ./postgres-data:/var/lib/postgresql/data
+        networks: 
+            - db
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"
+
+
+    wirecloud:
+        container_name: wirecloud
+        restart: always
+        image: fiware/wirecloud:latest-composable
+        ports:
+            - 127.0.0.1:8000:8000
+        volumes:
+            - ./wirecloud_instance:/opt/wirecloud_instance
+            - ./static:/var/www/static
+        depends_on:
+            - postgres
+        networks: 
+            - db
+            - frontend
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"

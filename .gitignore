@@ -1,0 +1,4 @@
+# Ignore created volumes
+wirecloud_instance
+static
+postgres-data
