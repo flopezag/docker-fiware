@@ -4,6 +4,11 @@ networks:
     db:
     frontend:
         external: true
+    idm_network:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 172.18.1.0/24
 
 
 services:
@@ -62,11 +67,23 @@ services:
             options:
                 max-size: "100m"
                 max-file: "5"
-
-
+        
+       
     ####################
     # Pending NGSI Proxy
     ####################
+    ngsiproxy:
+        container_name: ngsiproxy
+        restart: always
+        image: fiware/ngsiproxy:latest
+        ports: # Probably it fails due to explicitely it is using 3000
+            - 3001:3001
+        networks: 
+            - frontend
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"
 
 
     # IdM services
@@ -77,12 +94,13 @@ services:
         ports:
             - 3306:3306
         networks:
-            - db
+            idm_network:
+                ipv4_address: 172.18.1.5
         volumes:
             - ./mysql-idm:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=idm
-            - MYSQL_ROOT_HOST=127.0.0.1
+            - MYSQL_ROOT_HOST=172.18.1.6
         logging:
             options:
                 max-size: "100m"
@@ -99,8 +117,8 @@ services:
         depends_on:
             - mysql-idm
         networks:
-            - frontend
-            - db
+            idm_network:
+                ipv4_address: 172.18.1.6
         environment:
             - DATABASE_HOST=mysql-idm
         logging:

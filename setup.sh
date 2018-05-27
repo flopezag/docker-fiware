@@ -14,15 +14,20 @@ clean_environment() {
         case $yn in
             [Yy]* ) 
                 echo
+
+                echo "Removing dockers..."
                 docker-compose kill
                 docker-compose rm
                 docker-compose down
 
+                echo "    Removing local content..."
                 rm -rf ./postgres-data
                 rm -rf ./static
                 rm -rf ./wirecloud_instance
                 rm -rf ./mysql-idm
                 rm -rf ./mongodb
+
+                echo
 
                 exit
                 ;;
