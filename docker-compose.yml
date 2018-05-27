@@ -5,12 +5,10 @@ networks:
     frontend:
         external: true
 
-volumes:
-   vol-mysql:
 
 services:
 
-    # From wirecloud
+    # Wirecloud services
     nginx:
         container_name: nginx
         restart: always
@@ -64,3 +62,44 @@ services:
             options:
                 max-size: "100m"
                 max-file: "5"
+
+
+    # Wirecloud services
+    mysql-idm:
+        container_name: mysql-idm
+        restart: always
+        image: mysql/mysql-server:5.7.21
+        ports:
+            - 3306:3306
+        networks:
+            - db
+        volumes:
+            - ./mysql-idm:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=idm
+            - MYSQL_ROOT_HOST=127.0.0.1
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"
+
+
+    fiware-idm:
+        container_name: fiware-idm
+        restart: always
+        image: fiware/idm
+        ports:
+            - 3000:3000
+            - 443:443
+        depends_on:
+            - mysql-idm
+        networks:
+            - frontend
+            - db
+        environment:
+            - DATABASE_HOST=mysql-idm
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"
+
