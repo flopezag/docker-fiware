@@ -3,12 +3,12 @@ version: "3"
 networks:
     db:
     frontend:
-        external: true
     idm_network:
         driver: bridge
         ipam:
+            driver: default
             config:
-                - subnet: 172.18.1.0/24
+                - subnet: 10.18.1.0/24
 
 
 services:
@@ -58,8 +58,10 @@ services:
         volumes:
             - ./wirecloud_instance:/opt/wirecloud_instance
             - ./static:/var/www/static
+            - ./config-idm.sh:/opt/wirecloud_instance/config-idm.sh
         depends_on:
             - postgres
+            - fiware-idm
         networks: 
             - db
             - frontend
@@ -95,12 +97,12 @@ services:
             - 3306:3306
         networks:
             idm_network:
-                ipv4_address: 172.18.1.5
+                ipv4_address: 10.18.1.5
         volumes:
             - ./mysql-idm:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=idm
-            - MYSQL_ROOT_HOST=172.18.1.6
+            - MYSQL_ROOT_HOST=10.18.1.6
         logging:
             options:
                 max-size: "100m"
@@ -118,7 +120,7 @@ services:
             - mysql-idm
         networks:
             idm_network:
-                ipv4_address: 172.18.1.6
+                ipv4_address: 10.18.1.6
         environment:
             - DATABASE_HOST=mysql-idm
         logging:

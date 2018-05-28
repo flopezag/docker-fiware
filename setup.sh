@@ -20,6 +20,7 @@ clean_environment() {
                 docker-compose rm
                 docker-compose down
 
+                echo
                 echo "    Removing local content..."
                 rm -rf ./postgres-data
                 rm -rf ./static
