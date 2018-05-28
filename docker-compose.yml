@@ -75,12 +75,10 @@ services:
         container_name: ngsiproxy
         restart: always
         image: fiware/ngsiproxy:latest
-        ports: # Probably it fails due to explicitely it is using 3000
-            - 3010:3010
+        ports:
+            - 3010:3000
         networks: 
             - frontend
-        environment:
-            - PORT=3010 ngsi-proxy
         logging:
             options:
                 max-size: "100m"
@@ -118,6 +116,7 @@ services:
         depends_on:
             - mysql-idm
         networks:
+            frontend:
             idm_network:
                 ipv4_address: 10.18.1.6
         environment:

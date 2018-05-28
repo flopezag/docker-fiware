@@ -6,6 +6,13 @@ usage() {
     exit 1; 
 }
 
+initialize() {
+    docker-compose exec wirecloud sh config-idm.sh
+    docker-compose exec wirecloud manage.py migrate
+    docker-compose exec wirecloud manage.py collectstatic
+    docker-compose restart wirecloud
+}
+
 clean_environment() {
     echo "WARNING!!! This operation will delete all the local data"
     while true; do
@@ -59,12 +66,3 @@ case "$1" in
         usage
         ;;
 esac
-
-initialize() {
-    docker-compose exec wirecloud manage.py migrate
-
-    docker-compose exec wirecloud sh config-idm.sh 
-
-    docker-compose exec wirecloud manage.py collectstatic
-}
-

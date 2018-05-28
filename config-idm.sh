@@ -28,7 +28,7 @@ echo ")"                                                        >> ./wirecloud_i
 echo                                                            >> ./wirecloud_instance/settings2.py
 
 
-echo "FIWARE_IDM_SERVER = 'http://127.0.0.1:3000'"              >> ./wirecloud_instance/settings2.py
+echo "FIWARE_IDM_SERVER = 'http://fiware-idm:3000'"             >> ./wirecloud_instance/settings2.py
 echo                                                            >> ./wirecloud_instance/settings2.py
 echo "SOCIAL_AUTH_FIWARE_KEY = '$clientid'"                     >> ./wirecloud_instance/settings2.py
 echo                                                            >> ./wirecloud_instance/settings2.py
