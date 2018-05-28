@@ -51,8 +51,9 @@ line2="    url('', include('social_django.urls', namespace='social')),"
 
 printf "\n%s\n%s\n" "$line1" "$line2" > ./wirecloud_instance/a.out
 
-sed "/url(r'^admin\/', include(admin.site.urls)),/ r a.out" ./wirecloud_instance/urls2.py > ./wirecloud_instance/urls3.py
+sed "/url(r'^admin\/', include(admin.site.urls)),/ r ./wirecloud_instance/a.out" ./wirecloud_instance/urls2.py > ./wirecloud_instance/urls3.py
 
 rm ./wirecloud_instance/a.out
 rm ./wirecloud_instance/urls1.py ./wirecloud_instance/urls2.py
 mv ./wirecloud_instance/urls3.py ./wirecloud_instance/urls.py
+rm ./wirecloud_instance/urls.pyc

@@ -71,17 +71,16 @@ services:
                 max-file: "5"
         
        
-    ####################
-    # Pending NGSI Proxy
-    ####################
     ngsiproxy:
         container_name: ngsiproxy
         restart: always
         image: fiware/ngsiproxy:latest
         ports: # Probably it fails due to explicitely it is using 3000
-            - 3001:3001
+            - 3010:3010
         networks: 
             - frontend
+        environment:
+            - PORT=3010 ngsi-proxy
         logging:
             options:
                 max-size: "100m"
@@ -161,6 +160,49 @@ services:
             - db
         hostname: orion
         command: -dbhost mongo -logLevel ERROR
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"
+
+
+   # IoT-Agent Ultralight service
+    iotagent-ul:
+        container_name: iotagent-ul
+        restart: always
+        image: fiware/iotagent-ul:develop
+        ports:
+            - "7896:7896"
+            - "4041:4041"
+        depends_on:
+            - orion
+        networks:
+            - frontend
+            - db
+        hostname: iotagent-ul
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"
+
+
+    # Cygnus service
+    cygnus:
+        container_name: cygnus
+        restart: always
+        image: fiware/cygnus-ngsi:latest
+        ports:
+            - "5050:5050"
+        depends_on:
+            - mysql-idm
+            - orion
+        networks:
+            - frontend
+            - db
+        hostname: cygnus
+        environment:
+            - CYGNUS_MYSQL_USER=root
+            - CYGNUS_MYSQL_PASS=mysql
         logging:
             options:
                 max-size: "100m"

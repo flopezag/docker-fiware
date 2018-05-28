@@ -61,11 +61,9 @@ case "$1" in
 esac
 
 initialize() {
-    docker-compose exec wirecloud sh config-idm.sh 
-
     docker-compose exec wirecloud manage.py migrate
 
-    docker-compose exec wirecloud manage.py createsuperuser
+    docker-compose exec wirecloud sh config-idm.sh 
 
     docker-compose exec wirecloud manage.py collectstatic
 }
