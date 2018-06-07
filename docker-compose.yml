@@ -59,6 +59,7 @@ services:
             - ./wirecloud_instance:/opt/wirecloud_instance
             - ./static:/var/www/static
             - ./config-idm.sh:/opt/wirecloud_instance/config-idm.sh
+            - ./test.sh:/opt/wirecloud_instance/test.sh
         depends_on:
             - postgres
             - fiware-idm
@@ -119,6 +120,7 @@ services:
             frontend:
             idm_network:
                 ipv4_address: 10.18.1.6
+        hostname: fiware-idm
         environment:
             - DATABASE_HOST=mysql-idm
         logging:

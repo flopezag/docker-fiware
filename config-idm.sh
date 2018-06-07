@@ -1,15 +1,11 @@
 #!/bin/bash
 
-echo "Please remember that you have to create previously your application in the IdM,"
-echo "in order to obtain the Client Id and the Client Secret of the Wirecloud application"
-echo
-
 #########################
 # Reconfigure settings.py
 #########################
 
-read -p "Client ID: " clientid
-read -p "Client Secret: " clientsecret
+clientid=$1
+clientsecret=$2
 
 # Add url('', include('social_django.urls', namespace='social')),
 line1="    # 'wirecloud.oauth2provider',"
