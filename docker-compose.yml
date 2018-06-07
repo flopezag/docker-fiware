@@ -59,7 +59,6 @@ services:
             - ./wirecloud_instance:/opt/wirecloud_instance
             - ./static:/var/www/static
             - ./config-idm.sh:/opt/wirecloud_instance/config-idm.sh
-            - ./test.sh:/opt/wirecloud_instance/test.sh
         depends_on:
             - postgres
             - fiware-idm

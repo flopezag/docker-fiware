@@ -46,6 +46,27 @@ initialize() {
     ####################################
     command -v jq >/dev/null || { echo; echo "Need to install jq"; echo; apt-get install -y jq; }
 
+
+    ##############################################
+    # We need to wait until the IDM is Up & Ready
+    ##############################################
+    echo
+    echo -n "Waiting to get Up & Ready the IdM service ... "
+
+    curl http://127.0.0.1:3000 2>/dev/null >/dev/null
+
+    result=$?
+
+    while [ "$result" -eq "7" -o "$result" -eq "52" ]; do
+        curl http://127.0.0.1:3000 2>/dev/null >/dev/null
+
+        result=$?
+    done
+
+    tput setaf 2; echo "done"
+    tput sgr0; echo
+
+
     ###################
     # Get Auth Tokens
     ###################
