@@ -33,35 +33,6 @@ Last but not least, due to internal communication of the Wirecloud it is needed 
 
 ## Usage
 
-```js
-var trimNewlines = require('trim-newlines');
-
-trimNewlines('\nunicorn\r\n');
-//=> 'unicorn'
-```
-
-
-## API
-
-### trimNewlines(input)
-
-Trim from the start and end of a string.
-
-### trimNewlines.start(input)
-
-Trim from the start of a string.
-
-### trimNewlines.end(input)
-
-Trim from the end of a string.
-
-
-## Related
-
-- [trim-left](https://github.com/sindresorhus/trim-left) - Similar to `String#trim()` but removes only whitespace on the left
-- [trim-right](https://github.com/sindresorhus/trim-right) - Similar to `String#trim()` but removes only whitespace on the right.
-
-
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+Apache2.0
