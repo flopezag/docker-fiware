@@ -49,8 +49,10 @@ initialize() {
     ###################
     # Get Auth Tokens
     ###################
-    read -p    "Username: " username
-    read -p -s "Password: " password
+    read -p "Username: " username
+    echo -n "Password: "
+    read -s password
+    echo
 
     token=$( curl -v \
         --silent \
