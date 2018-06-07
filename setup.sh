@@ -25,8 +25,8 @@ post_data_for_application()
     "application": {
       "name": "Test_application 1",
       "description": "description",
-      "redirect_uri": "http://127.0.0.1",
-      "url": "http://127.0.0.1/complete/fiware",
+      "redirect_uri": "http://127.0.0.1/complete/fiware/",
+      "url": "http://127.0.0.1",
       "grant_type": [
         "authorization_code",
         "implicit",
@@ -49,8 +49,8 @@ initialize() {
     ###################
     # Get Auth Tokens
     ###################
-    read -p "Username: " username
-    read -p "Password: " password
+    read -p    "Username: " username
+    read -p -s "Password: " password
 
     token=$( curl -v \
         --silent \
@@ -68,8 +68,8 @@ initialize() {
         --data-binary "$(post_data_for_application)" \
         'http://fiware-idm:3000/v1/applications' 2>&1 > a.out)
 
-    ClientID=$(cat a.out | jq .application.id)
-    ClientSecret=$(cat a.out | jq .application.secret)
+    ClientID=$(cat a.out | jq .application.id | sed 's/\"//g')
+    ClientSecret=$(cat a.out | jq .application.secret | sed 's/\"//g')
 
     echo "Client ID: " $ClientID
     echo "Client Secret: " $ClientSecret
