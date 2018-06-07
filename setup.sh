@@ -59,7 +59,7 @@ initialize() {
         -X POST \
         -H 'Content-Type: application/json' \
         --data-binary "$(post_data_for_token)" \
-        'http://fiware-idm:3000/v1/auth/tokens' 2>&1 | awk '/X-Subject-Token: /{print substr($3,0,36)}' )
+        'http://127.0.0.1:3000/v1/auth/tokens' 2>&1 | awk '/X-Subject-Token: /{print substr($3,0,36)}' )
 
 
     result=$(curl -v \
@@ -68,7 +68,7 @@ initialize() {
         -H "Content-Type: application/json" \
         -H "X-Auth-Token: $token" \
         --data-binary "$(post_data_for_application)" \
-        'http://fiware-idm:3000/v1/applications' 2>&1 > a.out)
+        'http://127.0.0.1:3000/v1/applications' 2>&1 > a.out)
 
     ClientID=$(cat a.out | jq .application.id | sed 's/\"//g')
     ClientSecret=$(cat a.out | jq .application.secret | sed 's/\"//g')
