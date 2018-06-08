@@ -1,0 +1,2 @@
+[docker-fiware]
+<IP address of the machine in which install the component> ansible_ssh_user=<username to access to the VM>

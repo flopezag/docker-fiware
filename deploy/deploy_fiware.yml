@@ -1,0 +1,142 @@
+---
+# ------------------------
+# Deploy the general stuff
+# ------------------------
+- hosts: docker-fiware
+  become: yes
+  # strategy: debug
+
+  pre_tasks:
+    - name: Update APT cache
+      apt: update_cache=yes
+
+  tasks:
+    # General tasks, install vim
+    - name: Install apt-transport-https, ca-certificates, curl, software-properties-common, ppa-purge, vim and NTP server
+      apt: name={{ item }} update_cache=yes state=latest
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - ppa-purge
+        - vim
+        - ntp
+
+    - name: disable net.ipv6.conf.all.disable_ipv6
+      sysctl: name=net.ipv6.conf.all.disable_ipv6 value=1 state=present
+
+    - name: disable net.ipv6.conf.default.disable_ipv6
+      sysctl: name=net.ipv6.conf.default.disable_ipv6 value=1 state=present
+ 
+    - name: disable net.ipv6.conf.lo.disable_ipv6
+      sysctl: name=net.ipv6.conf.lo.disable_ipv6 value=1 state=present
+
+    - name: Check hostname
+      command: hostname
+      register: hostname
+
+    - debug:
+      msg: "{{ hostname }}"
+
+    - name: add myself and fiware-idm to /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '^127\.0\.0\.1[ \t]+localhost'
+        line: '127.0.0.1 localhost {{hostname.stdout}} fiware-idm'
+        state: present
+
+    - name: Download gpg key
+      command: curl -fsSL -o /home/ubuntu/gpg https://download.docker.com/linux/ubuntu/gpg
+
+    - name: Add apt key
+      command: apt-key add /home/ubuntu/gpg
+
+    - name: Apt key fingerprint
+      command: apt-key fingerprint 0EBFCD88
+
+    - name: Check lsb_release
+      command: lsb_release -cs
+      register: lsb_rel
+
+    - name: Check uname -s
+      command: uname -s
+      register: uname_s
+
+    - name: Check uname -m
+      command: uname -m
+      register: uname_m
+
+    - debug:
+        msg: "{{ lsb_rel.stdout }}"
+
+    - debug:
+        msg: "{{ uname_s.stdout }}"
+
+    - debug:
+        msg: "{{ uname_m.stdout }}"
+
+    - name: Add apt-key repository
+      command: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu "{{ lsb_rel.stdout }}" stable"
+
+    - name: Update repositories cache
+      apt:
+        update_cache: yes
+
+    - name: Install docker-ce
+      apt: name={{ item }} update_cache=yes state=latest
+      with_items:
+        - docker-ce
+
+    - name: Install docker-compose
+      command: curl -o /usr/local/bin/docker-compose -L https://github.com/docker/compose/releases/download/1.21.1/docker-compose-"{{ uname_s.stdout }}"-"{{ uname_m.stdout }}"
+
+    # change permission to a file
+    - name: Changing perm of "/usr/local/bin/docker-compose", adding "+x"
+      file: dest=/usr/local/bin/docker-compose mode=a+x
+
+    - name: Delete unused files
+      file: path=/home/ubuntu/gpg state=absent
+
+    - name: Check docker version
+      command: docker -v
+      register: docker
+
+    - name: Check docker-compose version
+      command: docker-compose -v
+      register: docker_compose
+
+    - debug:
+        msg: "{{ docker.stdout }}"
+
+    - debug:
+        msg: "{{ docker_compose.stdout }}"
+
+    # Clone repository
+    - git:
+        repo: https://github.com/flopezag/docker-fiware.git
+        dest: /home/ubuntu/docker-fiware
+
+    # Change to develop branch
+    - name: Change the working directory to docker-fiware/ before changing the branch to develop.
+      shell: git checkout develop
+      args:
+        chdir: /home/ubuntu/docker-fiware/
+
+    - name: Assign the correct user/group to the directory
+      shell: chown -R ubuntu:ubuntu /home/ubuntu/docker-fiware/
+      become: true
+
+    # Lauch the docker-compose of the services and configure it
+    - name: Run the docker-compose up of the service
+      shell: docker-compose up -d
+      become: true
+      args:
+        chdir: /home/ubuntu/docker-fiware
+
+    - name: Configurte the IdM and Wirecloud to work together
+      shell: setup.sh init
+      become: true
+      args:
+        chdir: /home/ubuntu/docker-fiware
+    

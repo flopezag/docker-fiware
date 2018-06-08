@@ -3,3 +3,9 @@ wirecloud_instance
 static
 postgres-data
 mysql-idm
+
+# Ignore virtual environment
+env/
+
+# Ignore temporal execution steps in ansible
+deploy/deploy_fiware.retry
