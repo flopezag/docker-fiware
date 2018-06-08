@@ -6,9 +6,37 @@
   become: yes
   # strategy: debug
 
+  vars_files:
+    - vars/main.yml
+
+  # Update and Upgrade the ubuntu instance
   pre_tasks:
     - name: Update APT cache
       apt: update_cache=yes
+
+    - name: Upgrade packages
+      apt: upgrade=dist
+
+    - name: Check if a reboot is required
+      register: reboot_required_file
+      stat: path=/var/run/reboot-required get_md5=no
+
+    - name: restart machine
+      become: yes
+      shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+      async: 1
+      poll: 0
+      ignore_errors: true
+      when: reboot_required_file.stat.exists == true
+
+    - name: Waiting for server to come back
+      become: no
+      local_action: wait_for
+        port=22
+        host={{ inventory_hostname }}
+        search_regex=OpenSSH
+        delay=10
+
 
   tasks:
     # General tasks, install vim
@@ -112,7 +140,7 @@
     - debug:
         msg: "{{ docker_compose.stdout }}"
 
-    # Clone repository
+    # Clone repository, NOW IT WILL BE CHANGED TO JUST PUT THE FILE THAT WE NEED
     - git:
         repo: https://github.com/flopezag/docker-fiware.git
         dest: /home/ubuntu/docker-fiware
@@ -127,6 +155,20 @@
       shell: chown -R ubuntu:ubuntu /home/ubuntu/docker-fiware/
       become: true
 
+    - name: change the IP adress 127.0.0.1 by the public IP of the virtual machine in which we deploy the ansible in config-idm.sh
+      replace:
+        path: /home/ubuntu/docker-fiware/config-idm.sh
+        regexp: 'fiware-idm'
+        replace: '{{ ip_address }}'
+        backup: yes
+
+    - name: change the IP adress 127.0.0.1 by the public IP of the virtual machine in which we deploy the ansible in setup.sh
+      replace:
+        path: /home/ubuntu/docker-fiware/setup.sh
+        regexp: '127.0.0.1'
+        replace: '{{ ip_address }}'
+        backup: yes
+
     # Lauch the docker-compose of the services and configure it
     - name: Run the docker-compose up of the service
       shell: docker-compose up -d
@@ -135,8 +177,7 @@
         chdir: /home/ubuntu/docker-fiware
 
     - name: Configurte the IdM and Wirecloud to work together
-      shell: setup.sh init
+      shell: ./setup.sh init
       become: true
       args:
         chdir: /home/ubuntu/docker-fiware
-    

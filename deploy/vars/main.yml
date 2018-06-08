@@ -1,0 +1,4 @@
+---
+# IP address of the virtual machine in which
+# this ansible is deployed
+ip_address: <IP of the Virtual Machine>

@@ -6,8 +6,7 @@ This content describes how to deploy this example of FIWARE services using an
 
 It will install the service and the different configurations file in order
 to make a prrof of concept of the integration of the different GEs (Orion,
-IdM - Keyrock, Wirecloud, IoT-Agent UL, Cygnus, PEP Proxy - Wilma and NGSI 
-Proxy.
+IdM - Keyrock, Wirecloud, IoT-Agent UL, Cygnus, PEP Proxy - Wilma and NGSI Proxy.
 
 Additionally, it autoconfigures the wirecloud instance in order to use the
 IdM - Keyrock local instance deployed in the docker-compose.
@@ -29,3 +28,9 @@ IdM - Keyrock local instance deployed in the docker-compose.
       ansible-playbook -vvvv -i inventory.yml \
       --private-key=(Key pair to access to the instance) \
       deploy_fiware.yml
+
+* Once that the command finish, the last step is going into the virtual machine and execute the command:
+
+      sudo ./setup.sh init
+
+Which automatically configure the Wirecloud to connect to the local instance of IdM.
