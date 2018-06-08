@@ -1,4 +1,4 @@
-# Setting up a stand-alone FIWARE Lab User Create service
+# How to deploy it in a specific machine
 
 This content describes how to deploy this example of FIWARE services using an
 [ansible](http://www.ansible.com) playbook. It has been tested on the
@@ -22,15 +22,21 @@ IdM - Keyrock local instance deployed in the docker-compose.
 
       pip install -r requirements.txt
 
-* One all the variables are in place you should be able to deploy and
-  configure the service. Just run the following command:
+* Go into the vars/main.yml and assign the IP of the virtual machine to the variable
+  ip_address.
+
+* Execute the ansible playbook to deploy and configure the services:
 
       ansible-playbook -vvvv -i inventory.yml \
       --private-key=(Key pair to access to the instance) \
       deploy_fiware.yml
 
-* Once that the command finish, the last step is going into the virtual machine and execute the command:
+* Once that the command finish, the last step is going into the virtual machine and
+  execute the command:
 
       sudo ./setup.sh init
 
-Which automatically configure the Wirecloud to connect to the local instance of IdM.
+  Which automatically configure the Wirecloud to connect to the local instance of IdM.
+
+Keep in mind that the deployment and configuration of all the steps could expend some
+time. One of our execution expends arround 13 minutes to finish it.

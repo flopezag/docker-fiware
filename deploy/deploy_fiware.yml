@@ -65,7 +65,7 @@
       register: hostname
 
     - debug:
-      msg: "{{ hostname }}"
+        msg: "{{ hostname }}"
 
     - name: add myself and fiware-idm to /etc/hosts
       lineinfile:
@@ -172,12 +172,6 @@
     # Lauch the docker-compose of the services and configure it
     - name: Run the docker-compose up of the service
       shell: docker-compose up -d
-      become: true
-      args:
-        chdir: /home/ubuntu/docker-fiware
-
-    - name: Configurte the IdM and Wirecloud to work together
-      shell: ./setup.sh init
       become: true
       args:
         chdir: /home/ubuntu/docker-fiware
