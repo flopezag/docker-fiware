@@ -25,6 +25,9 @@ IdM - Keyrock local instance deployed in the docker-compose.
 * Go into the vars/main.yml and assign the IP of the virtual machine to the variable
   ip_address.
 
+* Go into inventory.yml and put the IP of the virtual machine and the user that will
+  be used in order to access to the machine using SSH.
+
 * Execute the ansible playbook to deploy and configure the services:
 
       ansible-playbook -vvvv -i inventory.yml \
