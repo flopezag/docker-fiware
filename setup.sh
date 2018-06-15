@@ -1,9 +1,16 @@
 #!/bin/bash
 
 usage() { 
-    echo "Usage: $0 [init|clean]" 1>&2; 
+    echo "Usage:	$0 COMMAND"
     echo
-    exit 1; 
+    echo "A setup script to configure the docker-fiware containers."
+    echo
+    echo "Management Commands:"
+    echo "  init        Configure the services to work together."
+    echo "  clean       Stop and delete all the information about the containers."
+    echo "  pull        Update the docker images used in the project."
+    echo
+    exit 1;
 }
 
 
@@ -196,6 +203,55 @@ clean_environment() {
     done    
 }
 
+pull_environment()
+{
+    echo
+
+    echo "Obtaining updated NGINX image (latest)"
+	docker pull nginx:latest
+    echo
+	
+    echo "Obtaining updated Wirecloud image (latest-composable)"
+	docker pull fiware/wirecloud:latest-composable
+    echo
+	
+    echo "Obtaining updated Cygnus image (latest)"
+	docker pull fiware/cygnus-ngsi:latest
+    echo
+	
+    echo "Obtaining updated IoT Agent UL image (develop)"
+	docker pull fiware/iotagent-ul:develop
+    echo
+	
+    echo "Obtaining updated IdM image"
+	docker pull fiware/idm
+    echo
+	
+    echo "Obtaining updated Orion image (latest)"
+	docker pull fiware/orion:latest
+    echo
+	
+    echo "Obtaining updated PostgreSQL image (latest)"
+	docker pull postgres:latest
+    echo
+	
+    echo "Obtaining updated MongoDB image (3.4)"
+	docker pull mongo:3.4
+    echo
+	
+    echo "Obtaining updated MySQL Server image (5.7.21)"
+	docker pull mysql/mysql-server:5.7.21
+    echo
+	
+    echo "Obtaining updated NGSI Proxy image (latest)"
+	docker pull fiware/ngsiproxy:latest
+    echo
+	
+    echo "Obtaining updated MySQL image (5.7)"
+	docker pull mysql:5.7
+    echo
+}
+
 echo
 
 case "$1" in
@@ -208,39 +264,8 @@ case "$1" in
         clean_environment
         ;;
 	pull)
-		echo "Obtaining updated NGINX image (latest)"
-		docker pull nginx:latest
-        echo
-		echo "Obtaining updated Wirecloud image (latest-composable)"
-		docker pull fiware/wirecloud:latest-composable
-        echo
-		echo "Obtaining updated Cygnus image (latest)"
-		docker pull fiware/cygnus-ngsi:latest
-        echo
-		echo "Obtaining updated IoT Agent UL image (develop)"
-		docker pull fiware/iotagent-ul:develop
-        echo
-		echo "Obtaining updated IdM image"
-		docker pull fiware/idm
-        echo
-		echo "Obtaining updated Orion image (latest)"
-		docker pull fiware/orion:latest
-        echo
-		echo "Obtaining updated PostgreSQL image (latest)"
-		docker pull postgres:latest
-        echo
-		echo "Obtaining updated MongoDB image (3.4)"
-		docker pull mongo:3.4
-        echo
-		echo "Obtaining updated MySQL Server image (5.7.21)"
-		docker pull mysql/mysql-server:5.7.21
-        echo
-		echo "Obtaining updated NGSI Proxy image (latest)"
-		docker pull fiware/ngsiproxy:latest
-        echo
-		echo "Obtaining updated MySQL image (5.7)"
-		docker pull mysql:5.7
-        echo
+        echo "Updating docker images ..."
+        pull_environment
         ;;
     *)
         usage
