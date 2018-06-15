@@ -3,6 +3,7 @@ wirecloud_instance
 static
 postgres-data
 mysql-idm
+mysql-cygnus
 
 # Ignore virtual environment
 env/

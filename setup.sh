@@ -37,6 +37,28 @@ post_data_for_application()
 EOF
 }
 
+post_data_cygnus_subscription()
+{
+    cat <<EOF
+    {
+        "description": "Notify Cygnus of all context changes",
+        "subject": {
+            "entities": [
+                {
+                    "idPattern": ".*"
+                }
+            ]
+        },
+        "notification": {
+            "http": {
+                "url": "http://cygnus:5050/notify"
+            },
+            "attrsFormat": "legacy"
+        },
+        "throttling": 5
+    }
+EOF
+}
 
 initialize() {
     echo
@@ -97,6 +119,34 @@ initialize() {
     echo "Client ID: " $ClientID
     echo "Client Secret: " $ClientSecret
 
+    echo
+
+    ################################
+    # Subscribe Cygnus to Orion CB
+    ################################
+    echo
+    echo -n "Waiting to get Up & Ready the Orion service ... "
+
+    curl http://127.0.0.1:1026 2>/dev/null >/dev/null
+
+    result=$?
+
+    while [ "$result" -eq "7" -o "$result" -eq "52" ]; do
+        curl http://127.0.0.1:1026 2>/dev/null >/dev/null
+
+        result=$?
+    done
+
+    tput setaf 2; echo "done"
+    tput sgr0; echo
+
+    result=$(curl -v \
+        --silent \
+        -X POST \
+        -H "Content-Type: application/json" \
+        --data-binary "$(post_data_cygnus_subscription)" \
+        'http://127.0.0.1:1026/v2/subscriptions/' 2>&1 > a.out)
+
     rm a.out
 
     echo
@@ -128,6 +178,7 @@ clean_environment() {
                 rm -rf ./wirecloud_instance
                 rm -rf ./mysql-idm
                 rm -rf ./mongodb
+                rm -rf ./mysql-cygnus
 
                 echo
 
@@ -155,6 +206,41 @@ case "$1" in
     clean)
         echo "Cleaning the dockers ..."
         clean_environment
+        ;;
+	pull)
+		echo "Obtaining updated NGINX image (latest)"
+		docker pull nginx:latest
+        echo
+		echo "Obtaining updated Wirecloud image (latest-composable)"
+		docker pull fiware/wirecloud:latest-composable
+        echo
+		echo "Obtaining updated Cygnus image (latest)"
+		docker pull fiware/cygnus-ngsi:latest
+        echo
+		echo "Obtaining updated IoT Agent UL image (develop)"
+		docker pull fiware/iotagent-ul:develop
+        echo
+		echo "Obtaining updated IdM image"
+		docker pull fiware/idm
+        echo
+		echo "Obtaining updated Orion image (latest)"
+		docker pull fiware/orion:latest
+        echo
+		echo "Obtaining updated PostgreSQL image (latest)"
+		docker pull postgres:latest
+        echo
+		echo "Obtaining updated MongoDB image (3.4)"
+		docker pull mongo:3.4
+        echo
+		echo "Obtaining updated MySQL Server image (5.7.21)"
+		docker pull mysql/mysql-server:5.7.21
+        echo
+		echo "Obtaining updated NGSI Proxy image (latest)"
+		docker pull fiware/ngsiproxy:latest
+        echo
+		echo "Obtaining updated MySQL image (5.7)"
+		docker pull mysql:5.7
+        echo
         ;;
     *)
         usage

@@ -28,6 +28,14 @@ After this step you can launch your services just executing:
 docker-compose up -d
 ```
 
+Now it is time to get the different images that it is needed in our compose file. Keep in mind that
+it is something that you need to do from time to time to get the updated version of the docker images.
+Just execute:
+
+```bash
+./setup.sh pull
+```
+
 Last but not leasr, to configure your wirecloud instance just execute the configuration script:
 
 ```bash

@@ -187,22 +187,45 @@ services:
 
 
     # Cygnus service
+    mysql-db:
+        container_name: db-mysql
+        restart: always
+        image: mysql:5.7
+        ports:
+            - "3316:3306"
+        networks:
+            - db
+        hostname: mysql-db
+        volumes:
+            - ./mysql-cygnus:/var/lib/mysql
+        environment:
+            - "MYSQL_ROOT_PASSWORD=123"
+            - "MYSQL_ROOT_HOST=%"
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"
+
+
     cygnus:
         container_name: cygnus
         restart: always
         image: fiware/cygnus-ngsi:latest
         ports:
             - "5050:5050"
+            - "5080:5080"
         depends_on:
-            - mysql-idm
+            - mysql-db
             - orion
         networks:
             - frontend
             - db
         hostname: cygnus
         environment:
-            - CYGNUS_MYSQL_USER=root
-            - CYGNUS_MYSQL_PASS=mysql
+            - "CYGNUS_MYSQL_HOST=mysql-db"
+            - "CYGNUS_MYSQL_PORT=3306"
+            - "CYGNUS_MYSQL_USER=root" 
+            - "CYGNUS_MYSQL_PASS=123" 
         logging:
             options:
                 max-size: "100m"
