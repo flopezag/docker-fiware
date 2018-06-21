@@ -59,6 +59,8 @@ services:
             - ./wirecloud_instance:/opt/wirecloud_instance
             - ./static:/var/www/static
             - ./config-idm.sh:/opt/wirecloud_instance/config-idm.sh
+            - ./config-django-admin.py:/opt/wirecloud_instance/config-django-admin.py
+            - ./change-user-permissions.py:/opt/wirecloud_instance/change-user-permissions.py
         depends_on:
             - postgres
             - fiware-idm
@@ -109,7 +111,7 @@ services:
     fiware-idm:
         container_name: fiware-idm
         restart: always
-        image: fiware/idm
+        image: fiware/idm:latest
         ports:
             - 3000:3000
             - 443:443

@@ -158,14 +158,28 @@ initialize() {
 
     echo
 
+    ######################
+    # Configure Wirecloud
+    ######################
     docker-compose exec wirecloud sh config-idm.sh $ClientID $ClientSecret
+
+
+    #################################
+    # Finish the configuration steps
+    #################################
     docker-compose exec wirecloud manage.py migrate
     docker-compose exec wirecloud manage.py collectstatic
+    echo
+    
     docker-compose restart wirecloud
+
+    echo
 }
 
 clean_environment() {
-    echo "WARNING!!! This operation will delete all the local data"
+    tput setaf 1; echo "WARNING!!! This operation will delete all the local data"
+    tput sgr0; echo
+
     while true; do
         read -p "Do you really want to continue [y/N]? " yn
         yn=${yn:-no}
@@ -175,17 +189,22 @@ clean_environment() {
 
                 echo "Removing dockers..."
                 docker-compose kill
+                echo
                 docker-compose rm
+                echo
                 docker-compose down
 
                 echo
-                echo "    Removing local content..."
+                echo -n "    Removing local content ... "
                 rm -rf ./postgres-data
                 rm -rf ./static
                 rm -rf ./wirecloud_instance
                 rm -rf ./mysql-idm
                 rm -rf ./mongodb
                 rm -rf ./mysql-cygnus
+
+                tput setaf 2; echo "done"
+                tput sgr0; echo
 
                 echo
 
