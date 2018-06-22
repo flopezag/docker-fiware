@@ -176,7 +176,7 @@
         replace: '{{ ip_address }}'
         backup: yes
 
-        # Lauch the docker-compose of the services and configure it
+    # Lauch the docker-compose of the services and configure it
     - name: Run the docker-compose up of the service
       shell: docker-compose up -d
       become: true
