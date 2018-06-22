@@ -1,4 +1,21 @@
 #!/bin/bash
+# -*- encoding: utf-8 -*-
+##
+# Copyright 2017 FIWARE Foundation, e.V.
+# All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+##
 
 usage() { 
     echo "Usage:	$0 COMMAND"
@@ -94,7 +111,28 @@ initialize() {
 
     tput setaf 2; echo "done"
     tput sgr0; echo
+    
+    #################################################
+    # Configure IdM (config.js) and wait restart IdM
+    #################################################
+    docker-compose exec fiware-idm sh change-config-js.sh
+    docker-compose restart fiware-idm
 
+    echo
+    echo -n "Waiting to get Up & Ready the IdM service ... "
+
+    curl http://127.0.0.1:3000 2>/dev/null >/dev/null
+
+    result=$?
+
+    while [ "$result" -eq "7" -o "$result" -eq "52" ]; do
+        curl http://127.0.0.1:3000 2>/dev/null >/dev/null
+
+        result=$?
+    done
+
+    tput setaf 2; echo "done"
+    tput sgr0; echo
 
     ###################
     # Get Auth Tokens

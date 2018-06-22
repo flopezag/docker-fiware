@@ -169,7 +169,14 @@
         replace: '{{ ip_address }}'
         backup: yes
 
-    # Lauch the docker-compose of the services and configure it
+    - name: change the IP adress 127.0.0.1 by the public IP of the virtual machine in which we deploy the ansible in change-config-js.sh
+      replace:
+        path: /home/ubuntu/docker-fiware/change-config-js.sh
+        regexp: '127.0.0.1'
+        replace: '{{ ip_address }}'
+        backup: yes
+
+        # Lauch the docker-compose of the services and configure it
     - name: Run the docker-compose up of the service
       shell: docker-compose up -d
       become: true

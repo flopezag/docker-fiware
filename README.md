@@ -51,6 +51,17 @@ Please use the default administration user of the IdM. In order to access the wi
 In order to install and configure the deployment of this dockers, you can take a look to the documentation provided in
 deploy folder, [How to deploy it in a specific machine](deploy/README.md)
 
+## Django user management
+
+In case that you want to assign superuser roles to a user or simple user in the Django admin panel just execute the command:
+
+```bash
+docker-compose exec wirecloud python config-django-admin.py -u <username> -s <True|False>
+````
+
+where -u parameter is the username of the user that has to be registered previously in the IdM and loged in Wirecloud
+and -s is the parameter to indicate if the user is superuser (True) or just a simple user (False).
+
 ## License
 
 These scripts are licensed under Apache License 2.0.

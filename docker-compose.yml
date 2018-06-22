@@ -122,6 +122,8 @@ services:
             idm_network:
                 ipv4_address: 10.18.1.6
         hostname: fiware-idm
+        volumes:
+            - ./change-config-js.sh:/opt/fiware-idm/change-config-js.sh
         environment:
             - DATABASE_HOST=mysql-idm
         logging:
