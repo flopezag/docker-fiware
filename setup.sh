@@ -61,6 +61,7 @@ post_data_for_application()
 EOF
 }
 
+
 post_data_cygnus_subscription()
 {
     cat <<EOF
@@ -83,6 +84,19 @@ post_data_cygnus_subscription()
     }
 EOF
 }
+
+
+post_data_new_role() 
+{
+    cat<<EOF
+    {
+        "role": {
+            "name": "admin"
+        } 
+    }
+EOF
+}
+
 
 initialize() {
     echo
@@ -142,6 +156,7 @@ initialize() {
     read -s password
     echo
 
+    # Get a token
     token=$( curl -v \
         --silent \
         -X POST \
@@ -149,7 +164,11 @@ initialize() {
         --data-binary "$(post_data_for_token)" \
         'http://127.0.0.1:3000/v1/auth/tokens' 2>&1 | awk '/X-Subject-Token: /{print substr($3,0,36)}' )
 
+    echo
+    echo "Token: " $token
+    echo
 
+    # Create an application
     result=$(curl -v \
         --silent \
         -X POST \
@@ -163,6 +182,39 @@ initialize() {
 
     echo "Client ID: " $ClientID
     echo "Client Secret: " $ClientSecret
+
+    echo
+
+    # Create the role "admin" in the application
+    result=$(curl -v \
+        --silent \
+        -X POST \
+        -H "Cache-Control: no-cache" \
+        -H "Content-Type: application/json" \
+        -H "X-Auth-Token: $token" \
+        --data-binary "$(post_data_new_role)" \
+        "http://127.0.0.1:3000/v1/applications/$ClientID/roles" 2>&1 > a.out)
+
+    RoleID=$(cat a.out | jq .role.id | sed 's/\"//g')
+    RoleName=$(cat a.out | jq .role.name | sed 's/\"//g')
+
+    echo "Role ID: " $RoleID
+    echo "Role Name: " $RoleName
+
+    echo
+
+    # Assign role "admin" to the user "admin" of the current Application
+    result=$(curl -v \
+       --silent \
+        -X POST \
+        -H "Content-Type: application/json" \
+        -H "X-Auth-token: $token" \
+        "http://127.0.0.1:3000/v1/applications/$ClientID/users/admin/roles/$RoleID" 2>&1 > a.out)
+
+    RoleID=$(cat a.out | jq .role_user_assignments.role_id | sed 's/\"//g')
+    UserID=$(cat a.out | jq .role_user_assignments.user_id | sed 's/\"//g')
+    
+    echo "Role ID: $RoleID assigned to the User ID: $UserID"
 
     echo
 
@@ -206,7 +258,7 @@ initialize() {
     # Finish the configuration steps
     #################################
     docker-compose exec wirecloud manage.py migrate
-    docker-compose exec wirecloud manage.py collectstatic
+    docker-compose exec wirecloud manage.py collectstatic --noinput
     echo
     
     docker-compose restart wirecloud
@@ -226,6 +278,7 @@ clean_environment() {
                 echo
 
                 echo "Removing dockers..."
+                echo
                 docker-compose kill
                 echo
                 docker-compose rm
@@ -233,7 +286,7 @@ clean_environment() {
                 docker-compose down
 
                 echo
-                echo -n "    Removing local content ... "
+                echo -n "Removing local content ... "
                 rm -rf ./postgres-data
                 rm -rf ./static
                 rm -rf ./wirecloud_instance
@@ -320,7 +373,7 @@ case "$1" in
         echo "Cleaning the dockers ..."
         clean_environment
         ;;
-	pull)
+    pull)
         echo "Updating docker images ..."
         pull_environment
         ;;
