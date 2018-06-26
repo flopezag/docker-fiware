@@ -258,7 +258,8 @@ initialize() {
     # Finish the configuration steps
     #################################
     docker-compose exec wirecloud manage.py migrate
-    docker-compose exec wirecloud manage.py collectstatic --noinput
+    docker-compose exec wirecloud manage.py collectstatic
+    
     echo
     
     docker-compose restart wirecloud
