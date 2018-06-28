@@ -10,3 +10,6 @@ env/
 
 # Ignore temporal execution steps in ansible
 deploy/deploy_fiware.retry
+
+# Ignore IDE folders
+.vscode/

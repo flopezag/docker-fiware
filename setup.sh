@@ -76,7 +76,7 @@ post_data_cygnus_subscription()
         },
         "notification": {
             "http": {
-                "url": "http://cygnus:5050/notify"
+                "url": "http://127.0.0.1:5050/notify"
             },
             "attrsFormat": "legacy"
         },
@@ -205,7 +205,7 @@ initialize() {
 
     # Assign role "admin" to the user "admin" of the current Application
     result=$(curl -v \
-       --silent \
+        --silent \
         -X POST \
         -H "Content-Type: application/json" \
         -H "X-Auth-token: $token" \
@@ -241,6 +241,8 @@ initialize() {
         --silent \
         -X POST \
         -H "Content-Type: application/json" \
+        -H "Fiware-Service: MobilepediaCity" \
+        -H "Fiware-ServicePath: /"
         --data-binary "$(post_data_cygnus_subscription)" \
         'http://127.0.0.1:1026/v2/subscriptions/' 2>&1 > a.out)
 
@@ -259,7 +261,7 @@ initialize() {
     #################################
     docker-compose exec wirecloud manage.py migrate
     docker-compose exec wirecloud manage.py collectstatic
-    
+
     echo
     
     docker-compose restart wirecloud
