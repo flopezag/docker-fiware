@@ -179,7 +179,16 @@
 					"name": "Delete a subscription",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Fiware-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "Fiware-ServicePath",
+								"value": "{{FIWARE-ServicePath}}"
+							}
+						],
 						"body": {},
 						"url": {
 							"raw": "http://{{orion-url}}/v2/subscriptions/{{subscriptionID}}",
@@ -328,6 +337,33 @@
 							]
 						},
 						"description": "Get the version of the installed Cygnus instance.\n\nIt returns a __OK (200)__ and the response in JSON format."
+					},
+					"response": []
+				},
+				{
+					"name": "Set the debug level of the instance Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{cygnus-url}}/admin/log?level={{debug-level}}",
+							"protocol": "http",
+							"host": [
+								"{{cygnus-url}}"
+							],
+							"path": [
+								"admin",
+								"log"
+							],
+							"query": [
+								{
+									"key": "level",
+									"value": "{{debug-level}}"
+								}
+							]
+						},
+						"description": "Change the debug level of the Cygnus instance with the value defined in the URL. Possible values are INFO, WARN, DEBUG, ERROR.\n\nThis operation returns a __200 (OK)__ message with no content if it is completed succesfully."
 					},
 					"response": []
 				}
@@ -933,10 +969,10 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "http://{{iotagent-usr-admin}}/iot/devices",
+							"raw": "http://{{iotagent-url-admin}}/iot/devices",
 							"protocol": "http",
 							"host": [
-								"{{iotagent-usr-admin}}"
+								"{{iotagent-url-admin}}"
 							],
 							"path": [
 								"iot",
@@ -948,7 +984,7 @@
 					"response": []
 				},
 				{
-					"name": "Get information about registered service",
+					"name": "Get details of registered service",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -980,6 +1016,109 @@
 						"description": "Get information about the registered service in the IoT Agent.\n\nThis operation returns a __OK (200)__ message with the information about the service in json format."
 					},
 					"response": []
+				},
+				{
+					"name": "Register new service",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Fiware-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "Fiware-ServicePath",
+								"value": "{{FIWARE-ServicePath}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"services\": [\n   {\n     \"apikey\":      \"4jggokgpepnvsb2uv4s40d59ov\",\n     \"cbroker\":     \"http://{{orion-url}}\",\n     \"entity_type\": \"thing\",\n     \"resource\":    \"/iot/device\"\n   }\n ]\n}"
+						},
+						"url": {
+							"raw": "http://{{iotagent-url-admin}}/iot/services",
+							"protocol": "http",
+							"host": [
+								"{{iotagent-url-admin}}"
+							],
+							"path": [
+								"iot",
+								"services"
+							]
+						},
+						"description": "Register a new service in the IoT Agent.\n\nThis operation returns __Created (201)__ message."
+					},
+					"response": []
+				},
+				{
+					"name": "Register new device",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Fiware-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "Fiware-ServicePath",
+								"value": "{{FIWARE-ServicePath}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"devices\": [\n   {\n     \"device_id\":   \"my_device_01\",\n     \"entity_name\": \"my_entity_01\",\n     \"entity_type\": \"thing\",\n     \"protocol\":    \"PDI-IoTA-UltraLight\",\n     \"timezone\":    \"Europe/Madrid\",\n     \"attributes\": [\n       {\n         \"object_id\": \"t\",\n         \"name\":      \"temperature\",\n         \"type\":      \"int\"\n       },\n       {\n         \"object_id\": \"l\",\n         \"name\":      \"luminosity\",\n         \"type\":      \"number\"\n       }\n     ]\n   }\n ]\n}\n"
+						},
+						"url": {
+							"raw": "http://{{iotagent-url-admin}}/iot/devices",
+							"protocol": "http",
+							"host": [
+								"{{iotagent-url-admin}}"
+							],
+							"path": [
+								"iot",
+								"devices"
+							]
+						},
+						"description": "Register a new sensor in the IoT Agent.\n\nThis operation returns __Created (201)__ message."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CrateDB",
+			"description": "Requies to the Historical DB.",
+			"item": [
+				{
+					"name": "Get the historical data stored in the DB.",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"stmt\": \"SELECT * FROM mtmobilepediacity.etthing\"\n}\n\n"
+						},
+						"url": {
+							"raw": "http://{{crateDB-url}}/_sql",
+							"protocol": "http",
+							"host": [
+								"{{crateDB-url}}"
+							],
+							"path": [
+								"_sql"
+							]
+						},
+						"description": "Get the historical data stored in the DB.\n\nThe request returns __OK (200)__ message with the content in JSON format."
+					},
+					"response": []
 				}
 			]
 		}
@@ -1008,51 +1147,58 @@
 	],
 	"variable": [
 		{
-			"id": "e23ee33a-fd83-4782-9b6b-9ebca04b53b3",
+			"id": "c92c6572-39cb-48d6-8771-c3c47e151254",
 			"key": "orion-url",
 			"value": "127.0.0.1:1026",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "5f9c73c8-7973-429d-b206-2a938e3d2efc",
+			"id": "ef347251-ce0d-4ea5-9538-7a12683b56ce",
 			"key": "cygnus-url",
 			"value": "127.0.0.1:5080",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "460fc1f7-a6a1-46f8-a533-db0e8afdf7dd",
+			"id": "0c68f1b7-a3eb-4415-a12a-4838e9b0fe18",
 			"key": "keyrock-url",
 			"value": "127.0.0.1:3000",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "03698ea6-d05f-46c5-8b01-3787a4f90e67",
+			"id": "0eab20cd-71a0-4108-8109-ff02ba2c27a7",
 			"key": "keystone-url",
 			"value": "cloud.lab.fiware.org:4730",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "71355f51-6a1b-4366-94e0-cf0902fa0575",
+			"id": "e8505e61-a112-4ad3-a311-bfc03f8610b6",
 			"key": "swift-url",
 			"value": "130.206.112.3:8080",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "79a6064e-1dad-41a4-a495-f072ba3afa13",
+			"id": "684a06ff-31e3-45d1-b3d4-ccaf11fe3fb4",
 			"key": "iotagent-url-admin",
 			"value": "127.0.0.1:4041",
 			"type": "string",
 			"description": ""
 		},
 		{
-			"id": "4ef660c1-8e63-4165-aff0-86b466e61a7e",
+			"id": "0109b264-2367-4b3b-b74c-9eb989328004",
 			"key": "iotagent-url-data",
 			"value": "127.0.0.1:7896",
+			"type": "string",
+			"description": ""
+		},
+		{
+			"id": "c4f41616-b61e-4ac4-834e-2ad4241ca36c",
+			"key": "crateDB-url",
+			"value": "127.0.0.1:4200",
 			"type": "string",
 			"description": ""
 		}
