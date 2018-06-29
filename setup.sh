@@ -76,9 +76,34 @@ post_data_cygnus_subscription()
         },
         "notification": {
             "http": {
-                "url": "http://127.0.0.1:5050/notify"
+                "url": "http://cygnus:5050/notify"
             },
             "attrsFormat": "legacy"
+        },
+        "throttling": 5
+    }
+EOF
+}
+
+
+post_data_ql_subscription()
+{
+    cat <<EOF
+    {
+        "description": "Notify Quantum Leap of all context changes",
+        "subject": {
+            "entities": [
+                {
+                    "idPattern": ".*"
+                }
+            ]
+        },
+        "notification": {
+            "http": {
+                "url": "http://quantum-leap:8668/v2/notify"
+            },
+            "metadata": ["dateCreated", "dateModified"],
+            "attrsFormat": "normalized"
         },
         "throttling": 5
     }
@@ -242,8 +267,21 @@ initialize() {
         -X POST \
         -H "Content-Type: application/json" \
         -H "Fiware-Service: MobilepediaCity" \
-        -H "Fiware-ServicePath: /"
+        -H "Fiware-ServicePath: /" \
         --data-binary "$(post_data_cygnus_subscription)" \
+        'http://127.0.0.1:1026/v2/subscriptions/' 2>&1 > a.out)
+
+
+    #####################################
+    # Subscribe Quantum Leap to Orion CB
+    #####################################
+    result=$(curl -v \
+        --silent \
+        -X POST \
+        -H "Content-Type: application/json" \
+        -H "Fiware-Service: MobilepediaCity" \
+        -H "Fiware-ServicePath: /" \
+        --data-binary "$(post_data_ql_subscription)" \
         'http://127.0.0.1:1026/v2/subscriptions/' 2>&1 > a.out)
 
     rm a.out

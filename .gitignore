@@ -4,6 +4,7 @@ static
 postgres-data
 mysql-idm
 mysql-cygnus
+crate-db
 
 # Ignore virtual environment
 env/

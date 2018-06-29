@@ -1,0 +1,1060 @@
+{
+	"info": {
+		"_postman_id": "ed8c72db-fe82-44d2-8934-e81c165ad1b2",
+		"name": "India World Bank",
+		"description": "Queries related to the project with India World Bank and Mobilpedia.\n\nIt is important that you define your own Environment with the following variables:\n\n- __filename__, name of the file to be uploaded into the Object Storage.\n- __keystone-token__, X-Auth-Token id, requested to the IdM (X-Subject-Token value). See _Get Auth Token_ query for more details.\n- __projectID__, id of the project associated to your FIWARE Lab user accont. You can obtain the value in [Identity, Projects, Project ID](https://cloud.lab.fiware.org/identity/).\n- __containerName__, container name used in the Object Storage queries.\n- __idm-token__, authentication token obtained in the operation _Request a token to IdM_.\n- __applicationID__, application ID used to make the examples of the IdM. You can obtain it in the response of the _Create an application_ operation or in the _List applications_.\n- __userID__, user ID used in the examples of the IdM.\n- __roleID__, role ID used in the examples. You can obtain the value in the operation _Create a role in one appliation_.\n- __entityType__, entity Type used in the current examples.\n- __FIWARE-Service__, FIWARE Service associated to the data available in the Orion instance (e.g. MobilepediaCity).\n- __FIWARE-ServicePath__, FIWARE Service Path used in the current examples (e.g. /).\n- __entityID__, entity ID associated to the data stored in the current example. You can obtain the value in _Get Entities_ query.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Orion Context Broker",
+			"description": "Set of operations used to test the Orion instance in this project. To get more details about the Orion Context Broker API please go to the corresponding documentation [Orion API](https://orioncontextbroker.docs.apiary.io/#)",
+			"item": [
+				{
+					"name": "Get Entities (with filter)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Fiware-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "Fiware-Servicepath",
+								"value": "{{FIWARE-ServicePath}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{orion-url}}/v2/entities?type={{entityType}}&options=keyValues",
+							"protocol": "http",
+							"host": [
+								"{{orion-url}}"
+							],
+							"path": [
+								"v2",
+								"entities"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "{{entityType}}"
+								},
+								{
+									"key": "options",
+									"value": "keyValues"
+								}
+							]
+						},
+						"description": "Gets all the entities associated to and specific entity type, shown in key-value format.\n\nIt returns a __OK (200)__ and the response in JSON format with detailed information about the entities."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Entities",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Fiware-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "Fiware-Servicepath",
+								"value": "{{FIWARE-ServicePath}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{orion-url}}/v2/entities?type={{entityType}}",
+							"protocol": "http",
+							"host": [
+								"{{orion-url}}"
+							],
+							"path": [
+								"v2",
+								"entities"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "{{entityType}}"
+								}
+							]
+						},
+						"description": "Gets all the entities associated to and specific entity type.\n\nIt returns a __OK (200)__ and the response in JSON format with detailed information about the entities."
+					},
+					"response": []
+				},
+				{
+					"name": "Request Orion version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{orion-url}}/version",
+							"protocol": "http",
+							"host": [
+								"{{orion-url}}"
+							],
+							"path": [
+								"version"
+							]
+						},
+						"description": "Get the version of the installed Orion instance.\n\nIt returns a __OK (200)__ and the response in JSON format."
+					},
+					"response": []
+				},
+				{
+					"name": "Request Orion subscriptions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Fiware-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "Fiware-ServicePath",
+								"value": "{{FIWARE-ServicePath}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{orion-url}}/v2/subscriptions",
+							"protocol": "http",
+							"host": [
+								"{{orion-url}}"
+							],
+							"path": [
+								"v2",
+								"subscriptions"
+							]
+						},
+						"description": "Gets the complete list of subscriptions into the Orion instance.\n\nIt returns a __OK (200)__ and the response in JSON format."
+					},
+					"response": []
+				},
+				{
+					"name": "Update attributes in Orion",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Fiware-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "Fiware-ServicePath",
+								"value": "{{FIWARE-ServicePath}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"Gender\": {\n    \"value\": \"Male\"\n  }\n}"
+						},
+						"url": {
+							"raw": "http://{{orion-url}}/v2/entities/{{entityID}}/attrs",
+							"protocol": "http",
+							"host": [
+								"{{orion-url}}"
+							],
+							"path": [
+								"v2",
+								"entities",
+								"{{entityID}}",
+								"attrs"
+							]
+						},
+						"description": "Update the attributes associated to a specific entity.\n\nIt returns a __No Content (204)__."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a subscription",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{orion-url}}/v2/subscriptions/{{subscriptionID}}",
+							"protocol": "http",
+							"host": [
+								"{{orion-url}}"
+							],
+							"path": [
+								"v2",
+								"subscriptions",
+								"{{subscriptionID}}"
+							]
+						},
+						"description": "Delete a subscription.\n\nThe request returns a __No Content (204)__ message if the operation was completed."
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Fiware-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "Fiware-ServicePath",
+								"value": "{{FIWARE-ServicePath}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Notify Cygnus of all context changes\",\n    \"subject\": {\n        \"entities\": [\n            {\n                \"idPattern\": \".*\"\n            }\n        ]\n    },\n    \"notification\": {\n        \"attrsFormat\": \"legacy\",\n        \"http\": {\n            \"url\": \"http://{{cygnus-url}}/notify\"\n        }\n    },\n    \"throttling\": 5\n}"
+						},
+						"url": {
+							"raw": "http://{{orion-url}}/v2/subscriptions",
+							"protocol": "http",
+							"host": [
+								"{{orion-url}}"
+							],
+							"path": [
+								"v2",
+								"subscriptions"
+							]
+						},
+						"description": "Creates a new subscription. The subscription is represented by a JSON object as described at the beginning of this section.\n\nThis operation returns a __Created (201)__ message is the operation is completed succesfully."
+					},
+					"response": []
+				},
+				{
+					"name": "Get the debug level of the instance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{orion-url}}/admin/log",
+							"protocol": "http",
+							"host": [
+								"{{orion-url}}"
+							],
+							"path": [
+								"admin",
+								"log"
+							]
+						},
+						"description": "This operation return the debug level defined in the current instance.\n\nThis operation returns a __OK (200)__ messages with the content of the debug level in json format."
+					},
+					"response": []
+				},
+				{
+					"name": "Set the debug level of the instance",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{orion-url}}/admin/log?level={{debug-level}}",
+							"protocol": "http",
+							"host": [
+								"{{orion-url}}"
+							],
+							"path": [
+								"admin",
+								"log"
+							],
+							"query": [
+								{
+									"key": "level",
+									"value": "{{debug-level}}"
+								}
+							]
+						},
+						"description": "Change the debug level of the Orion instance with the value defined in the URL. Possible values are INFO, WARN, DEBUG, ERROR.\n\nThis operation returns a __200 (OK)__ message with no content if it is completed succesfully."
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f538e6a9-88bb-4172-a0e8-1f8633575701",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "3fc6f9f5-e8db-4296-90ca-b621376c37e4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Cygnus",
+			"description": "Set of queries used to test the connectivity with the Cygnus component. In order to get more details about the use of Cygnus go to [Cygnus API](http://fiware-cygnus.readthedocs.io/en/1.7.0/cygnus-common/installation_and_administration_guide/management_interface_v1/index.html).",
+			"item": [
+				{
+					"name": "Get version of Cygnus instance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{cygnus-url}}/v1/version",
+							"protocol": "http",
+							"host": [
+								"{{cygnus-url}}"
+							],
+							"path": [
+								"v1",
+								"version"
+							]
+						},
+						"description": "Get the version of the installed Cygnus instance.\n\nIt returns a __OK (200)__ and the response in JSON format."
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a7485f9b-ccba-4a30-a051-507075bd24f4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "fa33b53f-4605-4bf1-a549-dbd38656743e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "IdM - Keyrock",
+			"description": "Queries used to check the functionalities of the IdM-Keyrock. If you want to get more details about this service go to the [IdM-Keyrock API](https://keyrock.docs.apiary.io/#) for more details.",
+			"item": [
+				{
+					"name": "Request a token to IdM",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{username}}\",\n    \"password\": \"{{password}}\"\n}\n"
+						},
+						"url": {
+							"raw": "http://{{keyrock-url}}/v1/auth/tokens",
+							"protocol": "http",
+							"host": [
+								"{{keyrock-url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"tokens"
+							]
+						},
+						"description": "Request a token using v1/auth/token to the IdM-Keyrock instance.\n\nIt returns a __Created (201)__ and details about the expiration time in the body. The Authentication Token is returned in the __X-Subject-Token__ header parameter.\n\nKeep in mind that this token is the one that you need to use to request access to the IdM-Keyrock service (X-Auth-Token hedar parameter)."
+					},
+					"response": []
+				},
+				{
+					"name": "Lists users registered in the IdM",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{idm-token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{keyrock-url}}/v1/users",
+							"protocol": "http",
+							"host": [
+								"{{keyrock-url}}"
+							],
+							"path": [
+								"v1",
+								"users"
+							]
+						},
+						"description": "Lists users registered in the IdM. It is mandatory to put the __X-Auth-Token__ header parameter with the correct value.\n\nIt returns a __OK (200)__ if there was no problem and the information about the users registered in the IdM-Keyrock instance."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an user from the IdM",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{idm-token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{keyrock-url}}/v1/users/999bdeb5-1cc9-47b9-88a5-45825cbc436d",
+							"protocol": "http",
+							"host": [
+								"{{keyrock-url}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"999bdeb5-1cc9-47b9-88a5-45825cbc436d"
+							]
+						},
+						"description": "Delete a user from the IdM-Keyrock. It is mandatory to put the __X-Auth-Token__ header parameter with the correct value.\n\nIt returns a __No Content (204)__ if there was no problem or __Not Found (404)__ if the user cannot be found."
+					},
+					"response": []
+				},
+				{
+					"name": "List applications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{idm-token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{keyrock-url}}/v1/applications",
+							"protocol": "http",
+							"host": [
+								"{{keyrock-url}}"
+							],
+							"path": [
+								"v1",
+								"applications"
+							]
+						},
+						"description": "List the registed applications in the IdM-Keystone. It is mandatory to put the X-Auth-Token header parameter with the correct value.\n\nIt returns a __OK (200)__ and the response in JSON format."
+					},
+					"response": []
+				},
+				{
+					"name": "List of roles associated to an application",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{idm-token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{keyrock-url}}/v1/applications/{{applicationID}}/roles",
+							"protocol": "http",
+							"host": [
+								"{{keyrock-url}}"
+							],
+							"path": [
+								"v1",
+								"applications",
+								"{{applicationID}}",
+								"roles"
+							]
+						},
+						"description": "Returns the list of roles associated to an applicartion in the IdM-Keystone. It is mandatory to put the X-Auth-Token header parameter with the correct value.\n\nIt returns a __OK (200)__ and the response in JSON format. In case that the application requested does not exist, it returns a __NOT FOUND (404)__ and a error message in JSON format."
+					},
+					"response": []
+				},
+				{
+					"name": "Create an application",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Auth-Token",
+								"value": "{{idm-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"application\": {\n      \"name\": \"Test_application 3\",\n      \"description\": \"description\",\n      \"redirect_uri\": \"http://127.0.0.1/complete/fiware/\",\n      \"url\": \"http://127.0.0.1\",\n      \"grant_type\": [\n        \"authorization_code\",\n        \"implicit\",\n        \"password\"\n      ]\n    }\n  }\n"
+						},
+						"url": {
+							"raw": "http://{{keyrock-url}}/v1/applications",
+							"protocol": "http",
+							"host": [
+								"{{keyrock-url}}"
+							],
+							"path": [
+								"v1",
+								"applications"
+							]
+						},
+						"description": "Creates an application inside the IdM-Keyrock instance. It is mandatory to put the X-Auth-Token header parameter with the correct value.\n\nIf the data provided is the same the service will create another application with the same information.\n\nIt returns a __Created (201)__ and the response in JSON format with detailed information about the created new application."
+					},
+					"response": []
+				},
+				{
+					"name": "Create a role in one application",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Auth-Token",
+								"value": "{{idm-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"role\": {\n    \"name\": \"demo\"\n  } \n}"
+						},
+						"url": {
+							"raw": "http://{{keyrock-url}}/v1/applications/{{applicationID}}/roles",
+							"protocol": "http",
+							"host": [
+								"{{keyrock-url}}"
+							],
+							"path": [
+								"v1",
+								"applications",
+								"{{applicationID}}",
+								"roles"
+							]
+						},
+						"description": "Creates a role inside an application in the IdM-Keyrock instance. It is mandatory to put the X-Auth-Token header parameter with the correct value.\n\nIf the data provided is the same, the service will create another role with the same information. If the application id provided is wrong the service returns __Not Found (404)__ message.\n\nIt returns a __Created (201)__ and the response in JSON format with detailed information about the created new role."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign a role to a user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{idm-token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{keyrock-url}}/v1/applications/{{applicationID}}/users/{{userID}}/roles/{{roleID}}",
+							"protocol": "http",
+							"host": [
+								"{{keyrock-url}}"
+							],
+							"path": [
+								"v1",
+								"applications",
+								"{{applicationID}}",
+								"users",
+								"{{userID}}",
+								"roles",
+								"{{roleID}}"
+							]
+						},
+						"description": "Assign a role to a user inside an application. It is mandatory to put the X-Auth-Token header parameter with the correct value.\n\nIf the data provided is the same, the service will create another role with the same information.\n\nIt returns a __Created (201)__ and the response in JSON format with detailed information about the assignement."
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "752c1d04-e470-4085-b3e8-2a29c2ab6279",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "8a946d68-3844-4549-b90d-924274bd26c7",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "OpenStack (FIWARE Lab)",
+			"description": "Set of requests in order to work with the FIWARE Lab environment (OpenStack). For more details about the available request go to:\n\n- [OpenStack Identity Service (Keystone) API](https://developer.openstack.org/api-ref/identity/v3/).\n- [OpenStack Object Storage (Swift] API](https://developer.openstack.org/api-ref/object-store/).",
+			"item": [
+				{
+					"name": "Keystone (Identity)",
+					"description": "",
+					"item": [
+						{
+							"name": "Get Auth Token",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"auth\": {\n        \"identity\": {\n            \"methods\": [\n                \"password\"\n            ],\n            \"password\": {\n                \"user\": {\n                    \"name\": \"<your user name>\",\n                    \"password\": \"<your password>\",\n                    \"domain\": {\n                        \"name\": \"default\"\n                    }\n                }\n            }\n        },\n        \"scope\": {\n            \"project\": {\n                \"id\": \"<your project id>\"\n            }\n        }\n    }\n}\n"
+								},
+								"url": {
+									"raw": "http://{{keystone-url}}/v3/auth/tokens",
+									"protocol": "http",
+									"host": [
+										"{{keystone-url}}"
+									],
+									"path": [
+										"v3",
+										"auth",
+										"tokens"
+									]
+								},
+								"description": "Authenticates an identity and generates a token. Uses the token authentication method and scopes authorization to a project.\n\nThe request body includes the payload that specifies the token authentication method which includes the token in addition to a project.\n\nThe response includes the X-Subject-Token parameter, which is the authentication token to be used in the rest of OpenStack requests (X-Auth-Token header parameter)."
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "a7456455-7de9-4b3f-bff7-3817bfe7ff02",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "9c211952-48a4-4430-a9fb-52406e829476",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Swift (Object Storage)",
+					"description": "",
+					"item": [
+						{
+							"name": "Get the list of containers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{keystone-token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "http://{{swift-url}}/v1/AUTH_{{projectID}}?format=json",
+									"protocol": "http",
+									"host": [
+										"{{swift-url}}"
+									],
+									"path": [
+										"v1",
+										"AUTH_{{projectID}}"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "json"
+										}
+									]
+								},
+								"description": "Shows details for an account and lists containers, sorted by name, in the account.\n\nThe response body returns a list of containers. The default response (__text/plain__) returns one container per line. Nevertheless, we can specify the query option __format__ with value JSON to show the result data in json format.\n\nWhen asking for a list of containers and there are none, the response behavior changes depending on whether the request format is text, JSON, or XML. For a text response, you get a __204__ , because there is no content. However, for a JSON or XML response, you get a __200__ with content indicating an empty array."
+							},
+							"response": []
+						},
+						{
+							"name": "Create a container",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{keystone-token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "http://{{swift-url}}/v1/AUTH_{{projectID}}/{{containerName}}",
+									"protocol": "http",
+									"host": [
+										"{{swift-url}}"
+									],
+									"path": [
+										"v1",
+										"AUTH_{{projectID}}",
+										"{{containerName}}"
+									]
+								},
+								"description": "Creates a container.\n\nYou do not need to check whether a container already exists before issuing a PUT operation because the operation is idempotent: It creates a container or updates an existing container, as appropriate."
+							},
+							"response": []
+						},
+						{
+							"name": "Upload an object (text content)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{keystone-token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "text/html"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate, ex semper venenatis sollicitudin, sapien ligula ullamcorper felis, nec gravida odio nisl porta justo. Phasellus dui purus, cursus sit amet dolor ut, scelerisque mattis ipsum. Duis rhoncus bibendum diam. Curabitur ornare justo at dui porta, sit amet bibendum felis porttitor. Mauris a dolor auctor, hendrerit diam in, aliquam risus. In euismod lacus a eros sodales luctus. Fusce eget urna consectetur purus eleifend bibendum nec aliquam lorem.\n\nAliquam id nibh ut eros semper pharetra ut convallis odio. Suspendisse nec dignissim ex. Proin ac gravida urna. Vestibulum vestibulum tortor nec felis aliquam, eu suscipit ipsum tincidunt. Quisque at semper libero. Donec eleifend, urna vitae convallis malesuada, ligula nibh fermentum dolor, et tempor augue ipsum a erat. Integer fermentum nunc et posuere hendrerit. Morbi rhoncus, lorem sit amet aliquet congue, lorem ex cursus massa, vel blandit nulla risus eu nulla. Integer ultrices metus non erat ultricies tristique. Mauris tristique interdum urna, eu porta libero tempor sed. Praesent dictum, ex sed maximus eleifend, sapien nibh euismod ante, eu sodales eros ante at nisi."
+								},
+								"url": {
+									"raw": "http://{{swift-url}}/v1/AUTH_{{projectID}}/{{containerName}}/{{filename}}",
+									"protocol": "http",
+									"host": [
+										"{{swift-url}}"
+									],
+									"path": [
+										"v1",
+										"AUTH_{{projectID}}",
+										"{{containerName}}",
+										"{{filename}}"
+									]
+								},
+								"description": "Creates an object with data content and metadata, or replaces an existing object with data content and metadata.\n\nThe PUT operation always creates an object. If you use this operation on an existing object, you replace the existing object and metadata rather than modifying the object. Consequently, this operation returns the __Created (201)__ response code.\n\nIf you use this operation to copy a manifest object, the new object is a normal object and not a copy of the manifest. Instead it is a concatenation of all the segment objects. This means that you cannot copy objects larger than 5 GB.\n\nNote that the provider may have limited the characters which are allowed in an object name. Any name limits are exposed under the __name_check__ key in the __/info__ discoverability response. Regardless of __name_check__ limitations, names must be URL quoted UTF-8."
+							},
+							"response": []
+						},
+						{
+							"name": "Upload an object (binary file)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{keystone-token}}"
+									}
+								],
+								"body": {
+									"mode": "file",
+									"file": {}
+								},
+								"url": {
+									"raw": "http://{{swift-url}}/v1/AUTH_{{projectID}}/{{containerName}}/{{filename}}",
+									"protocol": "http",
+									"host": [
+										"{{swift-url}}"
+									],
+									"path": [
+										"v1",
+										"AUTH_{{projectID}}",
+										"{{containerName}}",
+										"{{filename}}"
+									]
+								},
+								"description": "Creates an object with data content and metadata, or replaces an existing object with data content and metadata. In that case the content is a binary file, therefore, in body we can especify a binary content and need to choose a concrete file.\n\nThis operation returns the __Created (201)__ response code."
+							},
+							"response": []
+						},
+						{
+							"name": "Get an object",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{keystone-token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "http://{{swift-url}}/v1/AUTH_{{projectID}}/{{containerName}}/{{filename}}",
+									"protocol": "http",
+									"host": [
+										"{{swift-url}}"
+									],
+									"path": [
+										"v1",
+										"AUTH_{{projectID}}",
+										"{{containerName}}",
+										"{{filename}}"
+									]
+								},
+								"description": "Downloads the object content and gets the object metadata.\n\nThis operation returns the object metadata in the response headers and the object content in the response body.\n\nIf this is a large object, the response body contains the concatenated content of the segment objects. To get the manifest instead of concatenated segment objects for a static large object, use the __multipart-manifest__ query parameter.\n\nKeep in mind that in order to save the content of the response you have to select the option __Send and Download__."
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "973d6c51-8313-46c6-bbca-c0b8075d944a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "dbf675f9-310d-4b41-931e-1ec7badea649",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "IoT Agent",
+			"description": "Provide some example queries to work with IoT Agent (Ultralight verion)",
+			"item": [
+				{
+					"name": "Send measurements to the IoT Agent",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/plain"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "t|40|l|1800"
+						},
+						"url": {
+							"raw": "http://{{iotagent-url-data}}/iot/d?k={{apikey}}&i={{deviceID}}",
+							"protocol": "http",
+							"host": [
+								"{{iotagent-url-data}}"
+							],
+							"path": [
+								"iot",
+								"d"
+							],
+							"query": [
+								{
+									"key": "k",
+									"value": "{{apikey}}"
+								},
+								{
+									"key": "i",
+									"value": "{{deviceID}}"
+								}
+							]
+						},
+						"description": "Sends measurements to the IoT Agent.\n\nThis operation returns a __OK (200)__ message is the operation was completed succesfully."
+					},
+					"response": []
+				},
+				{
+					"name": "Get datails of registered device",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Fiware-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "Fiware-ServicePath",
+								"value": "{{FIWARE-ServicePath}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{iotagent-usr-admin}}/iot/devices",
+							"protocol": "http",
+							"host": [
+								"{{iotagent-usr-admin}}"
+							],
+							"path": [
+								"iot",
+								"devices"
+							]
+						},
+						"description": "Get detailed information of registered device in the IoT Agent.\n\nThis operation returns a __OK (200)__ message with the information about the requested device in json format."
+					},
+					"response": []
+				},
+				{
+					"name": "Get information about registered service",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Fiware-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "Fiware-ServicePath",
+								"value": "{{FIWARE-ServicePath}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{iotagent-url-admin}}/iot/services",
+							"protocol": "http",
+							"host": [
+								"{{iotagent-url-admin}}"
+							],
+							"path": [
+								"iot",
+								"services"
+							]
+						},
+						"description": "Get information about the registered service in the IoT Agent.\n\nThis operation returns a __OK (200)__ message with the information about the service in json format."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "018116ee-46e7-420f-b33e-4c815799e5a2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4670b706-89e1-442b-ad9c-0099a6564580",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e23ee33a-fd83-4782-9b6b-9ebca04b53b3",
+			"key": "orion-url",
+			"value": "127.0.0.1:1026",
+			"type": "string",
+			"description": ""
+		},
+		{
+			"id": "5f9c73c8-7973-429d-b206-2a938e3d2efc",
+			"key": "cygnus-url",
+			"value": "127.0.0.1:5080",
+			"type": "string",
+			"description": ""
+		},
+		{
+			"id": "460fc1f7-a6a1-46f8-a533-db0e8afdf7dd",
+			"key": "keyrock-url",
+			"value": "127.0.0.1:3000",
+			"type": "string",
+			"description": ""
+		},
+		{
+			"id": "03698ea6-d05f-46c5-8b01-3787a4f90e67",
+			"key": "keystone-url",
+			"value": "cloud.lab.fiware.org:4730",
+			"type": "string",
+			"description": ""
+		},
+		{
+			"id": "71355f51-6a1b-4366-94e0-cf0902fa0575",
+			"key": "swift-url",
+			"value": "130.206.112.3:8080",
+			"type": "string",
+			"description": ""
+		},
+		{
+			"id": "79a6064e-1dad-41a4-a495-f072ba3afa13",
+			"key": "iotagent-url-admin",
+			"value": "127.0.0.1:4041",
+			"type": "string",
+			"description": ""
+		},
+		{
+			"id": "4ef660c1-8e63-4165-aff0-86b466e61a7e",
+			"key": "iotagent-url-data",
+			"value": "127.0.0.1:7896",
+			"type": "string",
+			"description": ""
+		}
+	]
+}

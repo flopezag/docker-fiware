@@ -16,6 +16,7 @@ services:
     # Wirecloud services
     nginx:
         container_name: nginx
+        hostname: nginx
         restart: always
         image: nginx:latest
         ports:
@@ -35,6 +36,7 @@ services:
 
     postgres:
         container_name: postgres
+        hostname: postgres
         restart: always
         image: postgres:latest
         ports:
@@ -51,6 +53,7 @@ services:
 
     wirecloud:
         container_name: wirecloud
+        hostname: wirecloud
         restart: always
         image: fiware/wirecloud:latest-composable
         ports:
@@ -75,7 +78,7 @@ services:
        
     ngsiproxy:
         container_name: ngsiproxy
-        restart: always
+        hostname: ngsiproxy
         image: fiware/ngsiproxy:latest
         ports:
             - 3010:3000
@@ -90,6 +93,7 @@ services:
     # IdM services
     mysql-idm:
         container_name: mysql-idm
+        hostname: mysql-idm
         restart: always
         image: mysql/mysql-server:5.7.21
         ports:
@@ -110,6 +114,7 @@ services:
 
     fiware-idm:
         container_name: fiware-idm
+        hostname: fiware-idm
         restart: always
         image: fiware/idm:latest
         ports:
@@ -121,7 +126,6 @@ services:
             frontend:
             idm_network:
                 ipv4_address: 10.18.1.6
-        hostname: fiware-idm
         volumes:
             - ./change-config-js.sh:/opt/fiware-idm/change-config-js.sh
         environment:
@@ -138,6 +142,7 @@ services:
     # Orion services
     mongo:
         container_name: mongo
+        hostname: mongo
         restart: always
         image: mongo:3.4
         command: --nojournal
@@ -153,6 +158,7 @@ services:
 
     orion:
         container_name: orion
+        hostname: orion
         restart: always
         image: fiware/orion:latest
         ports:
@@ -162,7 +168,6 @@ services:
         networks:
             - frontend
             - db
-        hostname: orion
         command: -dbhost mongo -logLevel ERROR
         logging:
             options:
@@ -173,6 +178,7 @@ services:
    # IoT-Agent Ultralight service
     iotagent-ul:
         container_name: iotagent-ul
+        hostname: iotagent-ul
         restart: always
         image: fiware/iotagent-ul:develop
         ports:
@@ -183,7 +189,6 @@ services:
         networks:
             - frontend
             - db
-        hostname: iotagent-ul
         logging:
             options:
                 max-size: "100m"
@@ -193,14 +198,16 @@ services:
     # Cygnus service
     mysql-db:
         container_name: db-mysql
+        hostname: mysql-db
         restart: always
         image: mysql:5.7
+        #image: mysql:8.0.11
         ports:
             - "3316:3306"
         networks:
             - db
-        hostname: mysql-db
         volumes:
+            # - ./my.cnf:/etc/mysql/conf.d/z_my.cnf"
             - ./mysql-cygnus:/var/lib/mysql
         environment:
             - "MYSQL_ROOT_PASSWORD=123"
@@ -213,6 +220,7 @@ services:
 
     cygnus:
         container_name: cygnus
+        hostname: cygnus
         restart: always
         image: fiware/cygnus-ngsi:latest
         ports:
@@ -224,9 +232,6 @@ services:
         networks:
             - frontend
             - db
-        hostname: cygnus
-        volumes:
-            - ./config-cygnus.conf:/opt/apache-flume/conf/agent.conf
         environment:
             - "CYGNUS_MYSQL_HOST=mysql-db" # Hostname of the MySQL server used to persist historical context data 
             - "CYGNUS_MYSQL_PORT=3306"     # Port that the MySQL server uses to listen to commands
@@ -234,6 +239,47 @@ services:
             - "CYGNUS_MYSQL_PASS=123"      # Password for the MySQL database user
             - "CYGNUS_SERVICE_PORT=5050"   # Notification Port that Cygnus listens when subcribing to context data changes
             - "CYGNUS_API_PORT=5080"       # Port that Cygnus listens on for operational reasons
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"
+
+    # Provide Historical DB management using Quantum Leap and Crate
+    crate-db:
+        container_name: db-crate
+        hostname: crate-db
+        restart: always
+        image: crate:1.0.5
+        ports:
+            # Admin UI
+            - "4200:4200"
+            # Transport protocol
+            - "4300:4300"
+        networks:
+            - frontend
+            - db
+        command: -Ccluster.name=democluster -Chttp.cors.enabled=true -Chttp.cors.allow-origin="*"
+        volumes:
+            - ./crate-db:/data
+        logging:
+            options:
+                max-size: "100m"
+                max-file: "5"
+
+    quantum-leap:
+        container_name: fiware-quantum-leap
+        hostname: quantum-leap
+        restart: always
+        image: smartsdk/quantumleap
+        ports:
+            - "8668:8668"
+        networks:
+            - frontend
+            - db
+        depends_on:
+            - crate-db
+        environment:
+            - CRATE_HOST=crate-db
         logging:
             options:
                 max-size: "100m"
