@@ -266,7 +266,7 @@ initialize() {
         --silent \
         -X POST \
         -H "Content-Type: application/json" \
-        -H "Fiware-Service: MobilepediaCity" \
+        -H "Fiware-Service: mobilepediacity" \
         -H "Fiware-ServicePath: /" \
         --data-binary "$(post_data_cygnus_subscription)" \
         'http://127.0.0.1:1026/v2/subscriptions/' 2>&1 > a.out)
@@ -279,7 +279,7 @@ initialize() {
         --silent \
         -X POST \
         -H "Content-Type: application/json" \
-        -H "Fiware-Service: MobilepediaCity" \
+        -H "Fiware-Service: mobilepediacity" \
         -H "Fiware-ServicePath: /" \
         --data-binary "$(post_data_ql_subscription)" \
         'http://127.0.0.1:1026/v2/subscriptions/' 2>&1 > a.out)

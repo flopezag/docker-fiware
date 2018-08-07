@@ -14,3 +14,4 @@ deploy/deploy_fiware.retry
 
 # Ignore IDE folders
 .vscode/
+.idea/
