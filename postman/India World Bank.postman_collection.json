@@ -2,20 +2,18 @@
 	"info": {
 		"_postman_id": "ed8c72db-fe82-44d2-8934-e81c165ad1b2",
 		"name": "India World Bank",
-		"description": "Queries related to the project with India World Bank and Mobilpedia.\n\nIt is important that you define your own Environment with the following variables:\n\n- __filename__, name of the file to be uploaded into the Object Storage.\n- __keystone-token__, X-Auth-Token id, requested to the IdM (X-Subject-Token value). See _Get Auth Token_ query for more details.\n- __projectID__, id of the project associated to your FIWARE Lab user accont. You can obtain the value in [Identity, Projects, Project ID](https://cloud.lab.fiware.org/identity/).\n- __containerName__, container name used in the Object Storage queries.\n- __idm-token__, authentication token obtained in the operation _Request a token to IdM_.\n- __applicationID__, application ID used to make the examples of the IdM. You can obtain it in the response of the _Create an application_ operation or in the _List applications_.\n- __userID__, user ID used in the examples of the IdM.\n- __roleID__, role ID used in the examples. You can obtain the value in the operation _Create a role in one appliation_.\n- __entityType__, entity Type used in the current examples.\n- __FIWARE-Service__, FIWARE Service associated to the data available in the Orion instance (e.g. MobilepediaCity).\n- __FIWARE-ServicePath__, FIWARE Service Path used in the current examples (e.g. /).\n- __entityID__, entity ID associated to the data stored in the current example. You can obtain the value in _Get Entities_ query.",
+		"description": "Queries related to the project with India World Bank and Mobilpedia.\n\nIt is important that you define your own Environment with the following variables:\n\n- __filename__, name of the file to be uploaded into the Object Storage.\n- __keystone-token__, X-Auth-Token id, requested to the IdM (X-Subject-Token value). See _Get Auth Token_ query for more details.\n- __projectID__, id of the project associated to your FIWARE Lab user accont. You can obtain the value in [Identity, Projects, Project ID](https://cloud.lab.fiware.org/identity/).\n- __containerName__, container name used in the Object Storage queries.\n- __idm-token__, authentication token obtained in the operation _Request a token to IdM_.\n- __applicationID__, application ID used to make the examples of the IdM. You can obtain it in the response of the _Create an application_ operation or in the _List applications_.\n- __userID__, user ID used in the examples of the IdM.\n- __roleID__, role ID used in the examples. You can obtain the value in the operation _Create a role in one appliation_.\n- __entityType__, entity Type used in the current examples.\n- __FIWARE-Service__, FIWARE Service associated to the data available in the Orion instance (e.g. mobilepediacity).\n- __FIWARE-ServicePath__, FIWARE Service Path used in the current examples (e.g. /).\n- __entityID__, entity ID associated to the data stored in the current example. You can obtain the value in _Get Entities_ query.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
-	"item": [
-		{
+	"item": [{
+			"_postman_id": "5adcdfa6-2608-488e-a98b-57ebaed0f73f",
 			"name": "Orion Context Broker",
-			"description": "Set of operations used to test the Orion instance in this project. To get more details about the Orion Context Broker API please go to the corresponding documentation [Orion API](https://orioncontextbroker.docs.apiary.io/#)",
-			"item": [
-				{
+			"item": [{
+					"_postman_id": "27205dbc-a3e0-4b8a-abc3-8027c6a5675c",
 					"name": "Get Entities (with filter)",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+						"header": [{
 								"key": "Fiware-Service",
 								"value": "{{FIWARE-Service}}"
 							},
@@ -35,8 +33,7 @@
 								"v2",
 								"entities"
 							],
-							"query": [
-								{
+							"query": [{
 									"key": "type",
 									"value": "{{entityType}}"
 								},
@@ -51,11 +48,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "ab7848f6-d050-499f-b23e-627e8657bf73",
 					"name": "Get Entities",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+						"header": [{
 								"key": "Fiware-Service",
 								"value": "{{FIWARE-Service}}"
 							},
@@ -75,18 +72,17 @@
 								"v2",
 								"entities"
 							],
-							"query": [
-								{
-									"key": "type",
-									"value": "{{entityType}}"
-								}
-							]
+							"query": [{
+								"key": "type",
+								"value": "{{entityType}}"
+							}]
 						},
 						"description": "Gets all the entities associated to and specific entity type.\n\nIt returns a __OK (200)__ and the response in JSON format with detailed information about the entities."
 					},
 					"response": []
 				},
 				{
+					"_postman_id": "d2bc5f2f-e11b-4e13-aab7-fe827504fb60",
 					"name": "Request Orion version",
 					"request": {
 						"method": "GET",
@@ -107,11 +103,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "99a0e906-685d-4e5f-9823-4d5c1146fb6e",
 					"name": "Request Orion subscriptions",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+						"header": [{
 								"key": "Fiware-Service",
 								"value": "{{FIWARE-Service}}"
 							},
@@ -137,11 +133,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "8b7c8337-b7d6-4841-b4aa-cd39ca8116ba",
 					"name": "Update attributes in Orion",
 					"request": {
 						"method": "PATCH",
-						"header": [
-							{
+						"header": [{
 								"key": "Content-Type",
 								"value": "application/json"
 							},
@@ -176,11 +172,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "a0d3d902-650a-4282-9d5b-1a537dd1d7fe",
 					"name": "Delete a subscription",
 					"request": {
 						"method": "DELETE",
-						"header": [
-							{
+						"header": [{
 								"key": "Fiware-Service",
 								"value": "{{FIWARE-Service}}"
 							},
@@ -207,11 +203,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "f7733a78-34ab-45f5-9cd7-c8482046c744",
 					"name": "Create a new subscription",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
+						"header": [{
 								"key": "Content-Type",
 								"value": "application/json"
 							},
@@ -244,6 +240,7 @@
 					"response": []
 				},
 				{
+					"_postman_id": "4024a0f6-9160-4eb4-a8b7-24200d11fdc3",
 					"name": "Get the debug level of the instance",
 					"request": {
 						"method": "GET",
@@ -265,6 +262,7 @@
 					"response": []
 				},
 				{
+					"_postman_id": "66c2ea32-c673-4979-b46e-0ef6c381e48a",
 					"name": "Set the debug level of the instance",
 					"request": {
 						"method": "PUT",
@@ -280,20 +278,94 @@
 								"admin",
 								"log"
 							],
-							"query": [
-								{
-									"key": "level",
-									"value": "{{debug-level}}"
-								}
-							]
+							"query": [{
+								"key": "level",
+								"value": "{{debug-level}}"
+							}]
 						},
 						"description": "Change the debug level of the Orion instance with the value defined in the URL. Possible values are INFO, WARN, DEBUG, ERROR.\n\nThis operation returns a __200 (OK)__ message with no content if it is completed succesfully."
 					},
 					"response": []
+				},
+				{
+					"_postman_id": "9a224131-61cf-4745-9780-3bc535e30fc3",
+					"name": "Registering a new entity with commands",
+					"request": {
+						"method": "POST",
+						"header": [{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "FIWARE-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "FIWARE-ServicePath",
+								"value": "{{FIWARE-ServicePath}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"Lamp Commands\",\n  \"dataProvided\": {\n    \"entities\": [\n      {\n        \"id\": \"Lamp001\",\n        \"type\": \"Lamp\"\n      }\n    ],\n    \"attrs\": [ \"on\", \"off\" ]\n  },\n  \"provider\": {\n    \"http\": {\n    \t\"url\": \"http://{{orion-url}}:1026/v1\"\n    },\n    \"legacyForwarding\": true\n  }\n}"
+						},
+						"url": {
+							"raw": "http://{{orion-url}}/v2/registrations",
+							"protocol": "http",
+							"host": [
+								"{{orion-url}}"
+							],
+							"path": [
+								"v2",
+								"registrations"
+							]
+						},
+						"description": "Registering a new entity with a set of commands.\n\nThis operation returns Created (201) message."
+					},
+					"response": []
+				},
+				{
+					"_postman_id": "c51caf87-27b0-4e89-871e-e8cdfc7697ac",
+					"name": "Switching (on/off) a Lamp",
+					"request": {
+						"method": "PATCH",
+						"header": [{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "FIWARE-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "FIWARE-ServicePath",
+								"value": "{{FIWARE-ServicePath}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"on\": {\n      \"type\" : \"command\",\n      \"value\" : \"\"\n  }\n}"
+						},
+						"url": {
+							"raw": "http://{{orion-url}}/v2/entities/{{entityName}}/attrs",
+							"protocol": "http",
+							"host": [
+								"{{orion-url}}"
+							],
+							"path": [
+								"v2",
+								"entities",
+								"{{entityName}}",
+								"attrs"
+							]
+						},
+						"description": "This command send a switching on command to a Lamp."
+					},
+					"response": []
 				}
 			],
-			"event": [
-				{
+			"description": "Set of operations used to test the Orion instance in this project. To get more details about the Orion Context Broker API please go to the corresponding documentation [Orion API](https://orioncontextbroker.docs.apiary.io/#)",
+			"event": [{
 					"listen": "prerequest",
 					"script": {
 						"id": "f538e6a9-88bb-4172-a0e8-1f8633575701",
@@ -316,10 +388,10 @@
 			]
 		},
 		{
+			"_postman_id": "42e3f0ef-a347-4af0-85ae-77e5e29ba144",
 			"name": "Cygnus",
-			"description": "Set of queries used to test the connectivity with the Cygnus component. In order to get more details about the use of Cygnus go to [Cygnus API](http://fiware-cygnus.readthedocs.io/en/1.7.0/cygnus-common/installation_and_administration_guide/management_interface_v1/index.html).",
-			"item": [
-				{
+			"item": [{
+					"_postman_id": "144e1e18-2181-4d00-802e-eff042a2b9af",
 					"name": "Get version of Cygnus instance",
 					"request": {
 						"method": "GET",
@@ -341,6 +413,7 @@
 					"response": []
 				},
 				{
+					"_postman_id": "61147bd4-1504-4cc5-ae13-3685c86ceac3",
 					"name": "Set the debug level of the instance Copy",
 					"request": {
 						"method": "PUT",
@@ -356,20 +429,18 @@
 								"admin",
 								"log"
 							],
-							"query": [
-								{
-									"key": "level",
-									"value": "{{debug-level}}"
-								}
-							]
+							"query": [{
+								"key": "level",
+								"value": "{{debug-level}}"
+							}]
 						},
 						"description": "Change the debug level of the Cygnus instance with the value defined in the URL. Possible values are INFO, WARN, DEBUG, ERROR.\n\nThis operation returns a __200 (OK)__ message with no content if it is completed succesfully."
 					},
 					"response": []
 				}
 			],
-			"event": [
-				{
+			"description": "Set of queries used to test the connectivity with the Cygnus component. In order to get more details about the use of Cygnus go to [Cygnus API](http://fiware-cygnus.readthedocs.io/en/1.7.0/cygnus-common/installation_and_administration_guide/management_interface_v1/index.html).",
+			"event": [{
 					"listen": "prerequest",
 					"script": {
 						"id": "a7485f9b-ccba-4a30-a051-507075bd24f4",
@@ -392,19 +463,17 @@
 			]
 		},
 		{
+			"_postman_id": "f02cc69b-ee29-4999-98e4-880b115310dd",
 			"name": "IdM - Keyrock",
-			"description": "Queries used to check the functionalities of the IdM-Keyrock. If you want to get more details about this service go to the [IdM-Keyrock API](https://keyrock.docs.apiary.io/#) for more details.",
-			"item": [
-				{
+			"item": [{
+					"_postman_id": "b7451dae-d5ca-4e6e-96a4-cf7d72dcbe66",
 					"name": "Request a token to IdM",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
+						"header": [{
+							"key": "Content-Type",
+							"value": "application/json"
+						}],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"{{username}}\",\n    \"password\": \"{{password}}\"\n}\n"
@@ -426,15 +495,14 @@
 					"response": []
 				},
 				{
+					"_postman_id": "dfddedf5-ba06-4ef1-8272-8162f0d22758",
 					"name": "Lists users registered in the IdM",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "X-Auth-Token",
-								"value": "{{idm-token}}"
-							}
-						],
+						"header": [{
+							"key": "X-Auth-Token",
+							"value": "{{idm-token}}"
+						}],
 						"body": {},
 						"url": {
 							"raw": "http://{{keyrock-url}}/v1/users",
@@ -452,15 +520,14 @@
 					"response": []
 				},
 				{
+					"_postman_id": "748dd10d-26ac-4019-99cb-f073baeb87ac",
 					"name": "Delete an user from the IdM",
 					"request": {
 						"method": "DELETE",
-						"header": [
-							{
-								"key": "X-Auth-Token",
-								"value": "{{idm-token}}"
-							}
-						],
+						"header": [{
+							"key": "X-Auth-Token",
+							"value": "{{idm-token}}"
+						}],
 						"body": {},
 						"url": {
 							"raw": "http://{{keyrock-url}}/v1/users/999bdeb5-1cc9-47b9-88a5-45825cbc436d",
@@ -479,15 +546,14 @@
 					"response": []
 				},
 				{
+					"_postman_id": "6c350dbe-d4b0-4c54-9ed7-616bb2d549e6",
 					"name": "List applications",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "X-Auth-Token",
-								"value": "{{idm-token}}"
-							}
-						],
+						"header": [{
+							"key": "X-Auth-Token",
+							"value": "{{idm-token}}"
+						}],
 						"body": {},
 						"url": {
 							"raw": "http://{{keyrock-url}}/v1/applications",
@@ -505,15 +571,14 @@
 					"response": []
 				},
 				{
+					"_postman_id": "fb9caf1e-1979-4248-9385-d1cef4a7941d",
 					"name": "List of roles associated to an application",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "X-Auth-Token",
-								"value": "{{idm-token}}"
-							}
-						],
+						"header": [{
+							"key": "X-Auth-Token",
+							"value": "{{idm-token}}"
+						}],
 						"body": {},
 						"url": {
 							"raw": "http://{{keyrock-url}}/v1/applications/{{applicationID}}/roles",
@@ -533,11 +598,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "366f3d98-062a-4788-969b-e36b19d66a32",
 					"name": "Create an application",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
+						"header": [{
 								"key": "Content-Type",
 								"value": "application/json"
 							},
@@ -566,11 +631,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "dc131fb1-031e-4d8c-b75e-4cb2be81ab22",
 					"name": "Create a role in one application",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
+						"header": [{
 								"key": "Content-Type",
 								"value": "application/json"
 							},
@@ -601,11 +666,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "71892f49-cadc-4e8d-bc0f-18a7c4186f58",
 					"name": "Assign a role to a user",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
+						"header": [{
 								"key": "X-Auth-Token",
 								"value": "{{idm-token}}"
 							},
@@ -636,8 +701,8 @@
 					"response": []
 				}
 			],
-			"event": [
-				{
+			"description": "Queries used to check the functionalities of the IdM-Keyrock. If you want to get more details about this service go to the [IdM-Keyrock API](https://keyrock.docs.apiary.io/#) for more details.",
+			"event": [{
 					"listen": "prerequest",
 					"script": {
 						"id": "752c1d04-e470-4085-b3e8-2a29c2ab6279",
@@ -660,46 +725,41 @@
 			]
 		},
 		{
+			"_postman_id": "e4cf29ca-15fa-478a-afe6-955db5cabf03",
 			"name": "OpenStack (FIWARE Lab)",
-			"description": "Set of requests in order to work with the FIWARE Lab environment (OpenStack). For more details about the available request go to:\n\n- [OpenStack Identity Service (Keystone) API](https://developer.openstack.org/api-ref/identity/v3/).\n- [OpenStack Object Storage (Swift] API](https://developer.openstack.org/api-ref/object-store/).",
-			"item": [
-				{
+			"item": [{
+					"_postman_id": "7784bb32-1bbb-49f2-984d-d63683d72fb7",
 					"name": "Keystone (Identity)",
-					"description": "",
-					"item": [
-						{
-							"name": "Get Auth Token",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"auth\": {\n        \"identity\": {\n            \"methods\": [\n                \"password\"\n            ],\n            \"password\": {\n                \"user\": {\n                    \"name\": \"<your user name>\",\n                    \"password\": \"<your password>\",\n                    \"domain\": {\n                        \"name\": \"default\"\n                    }\n                }\n            }\n        },\n        \"scope\": {\n            \"project\": {\n                \"id\": \"<your project id>\"\n            }\n        }\n    }\n}\n"
-								},
-								"url": {
-									"raw": "http://{{keystone-url}}/v3/auth/tokens",
-									"protocol": "http",
-									"host": [
-										"{{keystone-url}}"
-									],
-									"path": [
-										"v3",
-										"auth",
-										"tokens"
-									]
-								},
-								"description": "Authenticates an identity and generates a token. Uses the token authentication method and scopes authorization to a project.\n\nThe request body includes the payload that specifies the token authentication method which includes the token in addition to a project.\n\nThe response includes the X-Subject-Token parameter, which is the authentication token to be used in the rest of OpenStack requests (X-Auth-Token header parameter)."
+					"item": [{
+						"_postman_id": "1b557bd1-00f4-47fa-8d2c-ec87180827ba",
+						"name": "Get Auth Token",
+						"request": {
+							"method": "POST",
+							"header": [{
+								"key": "Content-Type",
+								"value": "application/json"
+							}],
+							"body": {
+								"mode": "raw",
+								"raw": "{\n    \"auth\": {\n        \"identity\": {\n            \"methods\": [\n                \"password\"\n            ],\n            \"password\": {\n                \"user\": {\n                    \"name\": \"<your user name>\",\n                    \"password\": \"<your password>\",\n                    \"domain\": {\n                        \"name\": \"default\"\n                    }\n                }\n            }\n        },\n        \"scope\": {\n            \"project\": {\n                \"id\": \"<your project id>\"\n            }\n        }\n    }\n}\n"
 							},
-							"response": []
-						}
-					],
-					"event": [
-						{
+							"url": {
+								"raw": "http://{{keystone-url}}/v3/auth/tokens",
+								"protocol": "http",
+								"host": [
+									"{{keystone-url}}"
+								],
+								"path": [
+									"v3",
+									"auth",
+									"tokens"
+								]
+							},
+							"description": "Authenticates an identity and generates a token. Uses the token authentication method and scopes authorization to a project.\n\nThe request body includes the payload that specifies the token authentication method which includes the token in addition to a project.\n\nThe response includes the X-Subject-Token parameter, which is the authentication token to be used in the rest of OpenStack requests (X-Auth-Token header parameter)."
+						},
+						"response": []
+					}],
+					"event": [{
 							"listen": "prerequest",
 							"script": {
 								"id": "a7456455-7de9-4b3f-bff7-3817bfe7ff02",
@@ -723,19 +783,17 @@
 					"_postman_isSubFolder": true
 				},
 				{
+					"_postman_id": "aa91718c-3c53-4950-8365-0a4fca8576b6",
 					"name": "Swift (Object Storage)",
-					"description": "",
-					"item": [
-						{
+					"item": [{
+							"_postman_id": "0e10c39c-24ec-4177-9599-f90ca20334c6",
 							"name": "Get the list of containers",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "X-Auth-Token",
-										"value": "{{keystone-token}}"
-									}
-								],
+								"header": [{
+									"key": "X-Auth-Token",
+									"value": "{{keystone-token}}"
+								}],
 								"body": {},
 								"url": {
 									"raw": "http://{{swift-url}}/v1/AUTH_{{projectID}}?format=json",
@@ -747,27 +805,24 @@
 										"v1",
 										"AUTH_{{projectID}}"
 									],
-									"query": [
-										{
-											"key": "format",
-											"value": "json"
-										}
-									]
+									"query": [{
+										"key": "format",
+										"value": "json"
+									}]
 								},
 								"description": "Shows details for an account and lists containers, sorted by name, in the account.\n\nThe response body returns a list of containers. The default response (__text/plain__) returns one container per line. Nevertheless, we can specify the query option __format__ with value JSON to show the result data in json format.\n\nWhen asking for a list of containers and there are none, the response behavior changes depending on whether the request format is text, JSON, or XML. For a text response, you get a __204__ , because there is no content. However, for a JSON or XML response, you get a __200__ with content indicating an empty array."
 							},
 							"response": []
 						},
 						{
+							"_postman_id": "85274069-9560-4d48-bcbb-01046a114492",
 							"name": "Create a container",
 							"request": {
 								"method": "PUT",
-								"header": [
-									{
-										"key": "X-Auth-Token",
-										"value": "{{keystone-token}}"
-									}
-								],
+								"header": [{
+									"key": "X-Auth-Token",
+									"value": "{{keystone-token}}"
+								}],
 								"body": {},
 								"url": {
 									"raw": "http://{{swift-url}}/v1/AUTH_{{projectID}}/{{containerName}}",
@@ -786,11 +841,11 @@
 							"response": []
 						},
 						{
+							"_postman_id": "4b0b2481-9901-4eaf-a703-ae81e199cb2f",
 							"name": "Upload an object (text content)",
 							"request": {
 								"method": "PUT",
-								"header": [
-									{
+								"header": [{
 										"key": "X-Auth-Token",
 										"value": "{{keystone-token}}"
 									},
@@ -821,15 +876,14 @@
 							"response": []
 						},
 						{
+							"_postman_id": "630a2a9c-074f-4fcd-847a-cb4417386940",
 							"name": "Upload an object (binary file)",
 							"request": {
 								"method": "PUT",
-								"header": [
-									{
-										"key": "X-Auth-Token",
-										"value": "{{keystone-token}}"
-									}
-								],
+								"header": [{
+									"key": "X-Auth-Token",
+									"value": "{{keystone-token}}"
+								}],
 								"body": {
 									"mode": "file",
 									"file": {}
@@ -852,15 +906,14 @@
 							"response": []
 						},
 						{
+							"_postman_id": "bb9dff85-721a-4343-b4b1-0cc0529a12b2",
 							"name": "Get an object",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "X-Auth-Token",
-										"value": "{{keystone-token}}"
-									}
-								],
+								"header": [{
+									"key": "X-Auth-Token",
+									"value": "{{keystone-token}}"
+								}],
 								"body": {},
 								"url": {
 									"raw": "http://{{swift-url}}/v1/AUTH_{{projectID}}/{{containerName}}/{{filename}}",
@@ -883,8 +936,8 @@
 					"_postman_isSubFolder": true
 				}
 			],
-			"event": [
-				{
+			"description": "Set of requests in order to work with the FIWARE Lab environment (OpenStack). For more details about the available request go to:\n\n- [OpenStack Identity Service (Keystone) API](https://developer.openstack.org/api-ref/identity/v3/).\n- [OpenStack Object Storage (Swift] API](https://developer.openstack.org/api-ref/object-store/).",
+			"event": [{
 					"listen": "prerequest",
 					"script": {
 						"id": "973d6c51-8313-46c6-bbca-c0b8075d944a",
@@ -907,19 +960,17 @@
 			]
 		},
 		{
+			"_postman_id": "4d07ec4f-e54f-4e50-b1c4-f272096bc954",
 			"name": "IoT Agent",
-			"description": "Provide some example queries to work with IoT Agent (Ultralight verion)",
-			"item": [
-				{
+			"item": [{
+					"_postman_id": "f7125f51-6fb5-450c-809d-f92aaaaed762",
 					"name": "Send measurements to the IoT Agent",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "text/plain"
-							}
-						],
+						"header": [{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}],
 						"body": {
 							"mode": "raw",
 							"raw": "t|40|l|1800"
@@ -934,8 +985,7 @@
 								"iot",
 								"d"
 							],
-							"query": [
-								{
+							"query": [{
 									"key": "k",
 									"value": "{{apikey}}"
 								},
@@ -950,11 +1000,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "9b56d80f-dbe5-4a36-bb5a-a2e486165453",
 					"name": "Get datails of registered device",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+						"header": [{
 								"key": "Fiware-Service",
 								"value": "{{FIWARE-Service}}"
 							},
@@ -984,11 +1034,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "57e5a1c3-6418-4a0d-87c1-4ed3f58be3b2",
 					"name": "Get details of registered service",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+						"header": [{
 								"key": "Content-Type",
 								"value": "application/json"
 							},
@@ -1018,11 +1068,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "5862d68e-483a-4444-b018-7a5df6d8e107",
 					"name": "Register new service",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
+						"header": [{
 								"key": "Fiware-Service",
 								"value": "{{FIWARE-Service}}"
 							},
@@ -1055,11 +1105,11 @@
 					"response": []
 				},
 				{
+					"_postman_id": "e50112d6-cf30-4c85-a775-1967d325e95d",
 					"name": "Register new device",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
+						"header": [{
 								"key": "Content-Type",
 								"value": "application/json"
 							},
@@ -1090,41 +1140,78 @@
 						"description": "Register a new sensor in the IoT Agent.\n\nThis operation returns __Created (201)__ message."
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "CrateDB",
-			"description": "Requies to the Historical DB.",
-			"item": [
+				},
 				{
-					"name": "Get the historical data stored in the DB.",
+					"_postman_id": "2dda6673-f9c6-437a-ba2a-009190fe604f",
+					"name": "Register new device with commands",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [{
+								"key": "FIWARE-Service",
+								"value": "{{FIWARE-Service}}"
+							},
+							{
+								"key": "FIWARE-ServicePath",
+								"value": "{{FIWARE-ServicePath}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"stmt\": \"SELECT * FROM mtmobilepediacity.etthing\"\n}\n\n"
+							"raw": "{\n  \"devices\": [\n    {\n      \"device_id\": \"lamp001\",\n      \"entity_name\": \"Lamp001\",\n      \"entity_type\": \"Lamp\",\n      \"protocol\": \"PDI-IoTA-UltraLight\",\n      \"transport\": \"HTTP\",\n      \"endpoint\": \"http://127.0.0.1:3001/iot/lamp001\",\n      \"commands\": [\n        {\"name\": \"on\",\"type\": \"command\"},\n        {\"name\": \"off\",\"type\": \"command\"}\n       ],\n       \"attributes\": [\n        {\"object_id\": \"s\", \"name\": \"state\", \"type\":\"Text\"},\n        {\"object_id\": \"l\", \"name\": \"luminosity\", \"type\":\"Integer\"}\n       ]\n    }\n  ]\n}"
 						},
 						"url": {
-							"raw": "http://{{crateDB-url}}/_sql",
+							"raw": "http://{{iotagent-url-admin}}/iot/devices",
 							"protocol": "http",
 							"host": [
-								"{{crateDB-url}}"
+								"{{iotagent-url-admin}}"
 							],
 							"path": [
-								"_sql"
+								"iot",
+								"devices"
 							]
 						},
-						"description": "Get the historical data stored in the DB.\n\nThe request returns __OK (200)__ message with the content in JSON format."
+						"description": "Register a new device with some commands.\n\nThis operation returns Created (201) message."
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Provide some example queries to work with IoT Agent (Ultralight verion)"
+		},
+		{
+			"_postman_id": "73527cfb-5b8e-4641-8df2-5fb17e987b6d",
+			"name": "CrateDB",
+			"item": [{
+				"_postman_id": "3e038595-921d-47d5-8ac6-8c1eb1a75807",
+				"name": "Get the historical data stored in the DB.",
+				"request": {
+					"method": "POST",
+					"header": [],
+					"body": {
+						"mode": "raw",
+						"raw": "{\n  \"stmt\": \"SELECT * FROM mtmobilepediacity.etthing\"\n}\n\n"
+					},
+					"url": {
+						"raw": "http://{{crateDB-url}}/_sql",
+						"protocol": "http",
+						"host": [
+							"{{crateDB-url}}"
+						],
+						"path": [
+							"_sql"
+						]
+					},
+					"description": "Get the historical data stored in the DB.\n\nThe request returns __OK (200)__ message with the content in JSON format."
+				},
+				"response": []
+			}],
+			"description": "Requies to the Historical DB."
 		}
 	],
-	"event": [
-		{
+	"event": [{
 			"listen": "prerequest",
 			"script": {
 				"id": "018116ee-46e7-420f-b33e-4c815799e5a2",
@@ -1145,62 +1232,53 @@
 			}
 		}
 	],
-	"variable": [
-		{
-			"id": "c92c6572-39cb-48d6-8771-c3c47e151254",
+	"variable": [{
+			"id": "d35cd7ea-6cc3-4411-a612-b8c97229c262",
 			"key": "orion-url",
 			"value": "127.0.0.1:1026",
-			"type": "string",
-			"description": ""
+			"type": "string"
 		},
 		{
-			"id": "ef347251-ce0d-4ea5-9538-7a12683b56ce",
+			"id": "e1e325f7-e568-4954-a54f-2be0e4caba23",
 			"key": "cygnus-url",
 			"value": "127.0.0.1:5080",
-			"type": "string",
-			"description": ""
+			"type": "string"
 		},
 		{
-			"id": "0c68f1b7-a3eb-4415-a12a-4838e9b0fe18",
+			"id": "00e7e791-fea5-4f44-8125-2ed4272101e7",
 			"key": "keyrock-url",
 			"value": "127.0.0.1:3000",
-			"type": "string",
-			"description": ""
+			"type": "string"
 		},
 		{
-			"id": "0eab20cd-71a0-4108-8109-ff02ba2c27a7",
+			"id": "9b928a8e-7fa5-48d4-87ed-f7d954331612",
 			"key": "keystone-url",
 			"value": "cloud.lab.fiware.org:4730",
-			"type": "string",
-			"description": ""
+			"type": "string"
 		},
 		{
-			"id": "e8505e61-a112-4ad3-a311-bfc03f8610b6",
+			"id": "168aae41-c460-4c4b-b153-6af091fafbd3",
 			"key": "swift-url",
-			"value": "130.206.112.3:8080",
-			"type": "string",
-			"description": ""
+			"value": "127.0.0.1:8080",
+			"type": "string"
 		},
 		{
-			"id": "684a06ff-31e3-45d1-b3d4-ccaf11fe3fb4",
+			"id": "93551a0e-e1a9-484a-8cbf-4353a586adf0",
 			"key": "iotagent-url-admin",
 			"value": "127.0.0.1:4041",
-			"type": "string",
-			"description": ""
+			"type": "string"
 		},
 		{
-			"id": "0109b264-2367-4b3b-b74c-9eb989328004",
+			"id": "4428d5f0-aa55-4659-8dfa-fb9db12378c4",
 			"key": "iotagent-url-data",
 			"value": "127.0.0.1:7896",
-			"type": "string",
-			"description": ""
+			"type": "string"
 		},
 		{
-			"id": "c4f41616-b61e-4ac4-834e-2ad4241ca36c",
+			"id": "f61131a8-5010-4a44-b797-834b6e04726c",
 			"key": "crateDB-url",
 			"value": "127.0.0.1:4200",
-			"type": "string",
-			"description": ""
+			"type": "string"
 		}
 	]
 }
